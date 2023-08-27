@@ -2,7 +2,7 @@ package dev.syntax.backend.admin.service;
 
 import java.util.List;
 
-public interface CrudService<Response,Request,ID>{
-    Response findById(ID id);
-    List<Response> findAll();
+public interface CrudService<Admin,ID>{
+    Admin findById(ID id);
+    List<Admin> findAll();
 }

@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 //관리자 테이블 관련 DB 설정
 public interface AdminRepository extends CrudRepository<Admin, Long> {
-
 }

@@ -1,4 +1,4 @@
-package dev.syntax.backend.admin.model;
+package dev.syntax.backend.user.model;
 //나이 그룹 설정
 public enum UserAgeGroup {
     ONE,

@@ -1,7 +1,6 @@
-package dev.syntax.backend.admin.repository;
+package dev.syntax.backend.user.repository;
 
-import dev.syntax.backend.admin.dto.response.UserResponse;
-import dev.syntax.backend.admin.model.User;
+import dev.syntax.backend.user.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
