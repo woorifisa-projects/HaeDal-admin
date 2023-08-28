@@ -1,10 +1,7 @@
 package dev.syntax.backend.admin.service;
 
-import dev.syntax.backend.admin.dto.request.AdminRequest;
-import dev.syntax.backend.admin.dto.response.AdminResponse;
+import dev.syntax.backend.admin.model.Admin;
 
-import java.util.List;
-
-public interface AdminService extends CrudService<AdminResponse, AdminRequest, Long>{
+public interface AdminService extends CrudService<Admin, Long> {
 
 }

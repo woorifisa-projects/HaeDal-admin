@@ -1,15 +1,12 @@
-package dev.syntax.backend.admin.service;
+package dev.syntax.backend.user.service;
 
-import dev.syntax.backend.admin.dto.request.UserRequest;
-import dev.syntax.backend.admin.dto.response.AdminResponse;
-import dev.syntax.backend.admin.dto.response.UserResponse;
-import dev.syntax.backend.admin.model.User;
+import dev.syntax.backend.user.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public interface UserService extends CrudService<User, UserRequest, Long> {
+public interface UserService extends CrudService<User, Long> {
 
     //유저 관련 동작들
     //유저 전체 조회

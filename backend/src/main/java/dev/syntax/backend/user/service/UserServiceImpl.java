@@ -1,13 +1,11 @@
-package dev.syntax.backend.admin.service;
+package dev.syntax.backend.user.service;
 
-import dev.syntax.backend.admin.dto.response.UserResponse;
-import dev.syntax.backend.admin.model.User;
-import dev.syntax.backend.admin.repository.UserRepository;
+import dev.syntax.backend.user.model.User;
+import dev.syntax.backend.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -30,9 +28,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<User> findAll() {
-        List<User> users = new ArrayList<>();
-        userRepository.findAll().forEach(users::add);
-        return users;
+        return (List<User>) userRepository.findAll();
     }
 
 

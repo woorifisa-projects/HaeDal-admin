@@ -1,15 +1,10 @@
-package dev.syntax.backend.admin.dto.response;
+package dev.syntax.backend.user.dto.response;
 
 
 import dev.syntax.backend.admin.model.Admin;
-import dev.syntax.backend.admin.model.ServicePurpose;
-import dev.syntax.backend.admin.model.User;
-import dev.syntax.backend.admin.model.UserAgeGroup;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.Column;
 
 //관리자 dto
 @Getter

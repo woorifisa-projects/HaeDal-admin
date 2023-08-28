@@ -1,16 +1,11 @@
 package dev.syntax.backend.admin.service;
 
-import dev.syntax.backend.admin.dto.response.AdminResponse;
 import dev.syntax.backend.admin.model.Admin;
-import dev.syntax.backend.admin.model.User;
 import dev.syntax.backend.admin.repository.AdminRepository;
 
-import dev.syntax.backend.admin.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -22,14 +17,13 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public AdminResponse findById(Long id) {
+    public Admin findById(Long id) {
 
-        return null;
+        return adminRepository.findById(id).orElse(null);
     }
 
     @Override
-    public List<AdminResponse> findAll() {
-
-        return null;
+    public List<Admin> findAll() {
+        return (List<Admin>) adminRepository.findAll();
     }
 }
