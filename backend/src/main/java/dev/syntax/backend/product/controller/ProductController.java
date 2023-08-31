@@ -40,15 +40,15 @@ public class ProductController {
     }
 
     //상품 수정 화면
-    @GetMapping("/{product_id}/edit")
-    public ProductResponse showEdit(@PathVariable("product_id") Long productId) {
+    @GetMapping("/{productId}/edit")
+    public ProductResponse showEdit(@PathVariable("productId") Long productId) {
         Product product = productService.findById(productId);
         return ProductResponse.from(product);
     }
 
-    // 수정 제출 버튼시
-    @PostMapping("/{product_id}/edit")
-    public ProductResponse submitEdit(@PathVariable("product_id") Long productId, @RequestBody Product editProduct) {
+    // 수정 제출 버튼 클릭시
+    @PostMapping("/{productId}/edit/save")
+    public ProductResponse submitEdit(@PathVariable("productId") Long productId, @RequestBody Product editProduct) {
         editProduct.setProductId(productId);
         Product updatedProduct = productService.save(editProduct);
         return ProductResponse.from(updatedProduct);

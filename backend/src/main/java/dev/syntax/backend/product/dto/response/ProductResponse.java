@@ -19,7 +19,7 @@ public class ProductResponse {
 
 
     private final Long productId; // 상품 id
-    private final Long productAsset; // 추천을 위한 상품 자산
+    private final Long maxProductAsset; // 상품 최대금액
     private ServicePurpose servicePurpose; // 서비스 이용 목적
     private UserAgeGroup userAgeGroup; // 연령대
     private Tag tag;// 어떤 태그를 가지고 있는지
@@ -31,20 +31,22 @@ public class ProductResponse {
     private final double interestRate; // 금리
     private List<Subscribe> subscribers; // 한 개의 상품에 몇 명의 고객들이 가입했는지 list
     private boolean isDeposit; // 예금, 적금 타입 확인용 컬럼(0=예금, 1=적금)
-    private int subscription; // 월 납입금액(구독료)
 
 
     public static ProductResponse from(Product product)  {
         return ProductResponse.builder()
                 .productId(product.getProductId())
-                .productAsset(product.getMaxProductMoney())
+                .longInfo(product.getLongInfo())
+                .requiredStartMoney(product.getRequiredStartMoney())
+                .period(product.getPeriod())
+                .interestRate(product.getInterestRate())
+                .isDeposit(product.isDeposit())  // boolean타입일 때는 Getter는 is로 시작하는 것이 관례
+                .maxProductAsset(product.getMaxProductMoney())
+                .servicePurpose(product.getServicePurpose())
+                .userAgeGroup(product.getUserAgeGroup())
                 .tag(product.getTag())
                 .productName(product.getProductName())
                 .shortInfo(product.getShortInfo())
-                .period(product.getPeriod())
-                .interestRate(product.getInterestRate())
-                .isDeposit(product.isDeposit()) // boolean타입일 때는 Getter는 is로 시작하는 것이 관례
-                .subscription(product.getSubscription())
                 .build();
     }
 }
