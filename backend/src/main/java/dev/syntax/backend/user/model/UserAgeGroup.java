@@ -5,5 +5,7 @@ public enum UserAgeGroup {
     TWO,
     THREE,
     FOUR,
-    FIVE;
+    FIVE,
+
+    ONETWOTHREEFOURFIVE; // 전 연령대
 }

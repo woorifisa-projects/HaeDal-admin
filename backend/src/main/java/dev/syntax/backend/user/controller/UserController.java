@@ -24,7 +24,7 @@ public class UserController {
     }
 
     //고객 리스트 전체 조회
-    @GetMapping("/list")
+    @GetMapping
     public List<UserResponse> userList(){
         List<User> users = userService.findAll();
         return users.stream().map(UserResponse::from).collect(Collectors.toList());
