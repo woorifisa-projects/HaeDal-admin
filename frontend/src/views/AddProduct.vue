@@ -1,7 +1,9 @@
 <template>
+
+    <h2>상품 추가 페이지</h2>
     <form @submit.prevent="submit">
     <div class = "title">
-        상품정보 수정
+        상품정보
     </div>
        <v-text-field class = "productName"
         v-model="productName.value.value"
@@ -131,53 +133,52 @@
         class="me-4"
         type="submit"
       >
-        수정
+        추가
       </v-btn>
   
       <v-btn @click="handleReset">
         취소
-      </v-btn>
-  
-      
-        <div class="text-center">
+      </v-btn> 
 
-      <v-dialog
-        v-model="dialog.isOpen.value" 
-        width="auto"
-      >
-        <v-card>
-          <v-card-text>
-            상품의 정보가 수정되었습니다!
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="primary" block @click="dialog.closeDialog">확인</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-        </div>
-    </form>
-  
-  </template>
-  
+      <div class="text-center">
+
+<v-dialog
+  v-model="dialog.isOpen.value" 
+  width="auto"
+>
+  <v-card>
+    <v-card-text>
+    상품의 정보가 추가되었습니다!
+    </v-card-text>
+    <v-card-actions>
+      <v-btn color="primary" block @click="dialog.closeDialog">확인</v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
+  </div>
+</form>
+
+</template>
 
 
-  
-  <script setup>
-    import { defineProps, onMounted } from 'vue';
-    import { ref } from 'vue'
-    import axios from 'axios'
-    import { useField, useForm } from 'vee-validate'; 
-    import { useRouter } from 'vue-router';
+
+
+<script setup>
+import { onMounted } from 'vue';
+import { ref } from 'vue'
+import axios from 'axios'
+import { useField, useForm } from 'vee-validate'; 
+import { useRouter } from 'vue-router';
 
     const router = useRouter();
-    // const product_id = router.params.product_id; // route.params로 product_id 가져오기
+
+    // add_product 경로로 이동
+    router.push({ name: 'add_product' });
 
 
-    const props = defineProps({
-    productId: String
-    });
 
 
+    // 상품 추가 완료시 메세지
     const dialog = {
     isOpen: ref(false),
     openDialog() {
@@ -185,10 +186,11 @@
     },
     closeDialog() {
       dialog.isOpen.value = false; // 다이얼로그 닫기
-      router.push({ name: 'product_management' }); // '상품관리' 경로로 이동
+      router.push({ name: 'product_management'}); // 'edit' 경로로 이동
     }
   };
   
+  // 상품 등록 유효성 처리
     const { handleSubmit, handleReset } = useForm({
       validationSchema: {
         productName (value) {
@@ -238,7 +240,7 @@
 
       },
     })
-    
+
 
     const maxProductAsset = useField('maxProductAsset') // 상품 최대금액
     const servicePurpose = useField('servicePurpose')// 서비스 이용 목적
@@ -312,22 +314,21 @@
     const mapToPurposeEnum = (value) => purposeEnumMapping[value];
     const mapToTag = (value) => tagEnumMapping[value];
     const mapToIsDeposit = (value) => isDepositBooleanMapping[value];
-  
 
 
     const submit = handleSubmit(values => {
-      console.log("함수 동작하고있니");
+      console.log("함수 동작");
       const ageEnum = mapToAgeEnum(values.userAgeGroup);
       const purposeEnum = mapToPurposeEnum(values.servicePurpose);
       const tagEnum = mapToTag(values.tag);
       const isDepositBoolean = mapToIsDeposit(values.isDeposit);
-        const productId = props.productId;
+
 
       const dataToSend = { ...values, userAgeGroup: ageEnum, servicePurpose: purposeEnum, tag: tagEnum, isDeposit: isDepositBoolean };
   
       console.log(dataToSend);
      
-      axios.post(`http://localhost:8080/admin/product/${productId}/edit/save`,dataToSend)
+      axios.post('http://localhost:8080/admin/product/add', dataToSend)
       .then(response => {
         // POST 요청 성공 시 로직
         console.log(response.data);
@@ -335,8 +336,7 @@
         dialog.openDialog();
         console.log("모달창띄웟다");
         // 수정이 완료되었을 때 'save' 경로로 이동
-        router.push({ name: 'save_edited_product', params: { productId } });
-        console.log("페이지 이동 성공!")
+        router.push({ name: 'save_add_product' });
       })
       // POST 요청 실패 시 로직
       .catch(error => {
@@ -344,41 +344,22 @@
       });
     })
 
-  
+  onMounted(() => {
+     
 
 
-onMounted(() => {
-    const productId = props.productId; // props로 받아온 product_id 사용
 
-     axios.get(`http://localhost:8080/admin/product/${productId}/edit`)
-    .then (response => {
-      console.log(response.data);
-     productName.value.value = response.data.name
-     maxProductAsset.value.value = response.data.maxProductAsset
-     servicePurpose.value.value = response.data.servicePurpose
-     userAgeGroup.value.value = response.data.userAgeGroup
-     tag.value.value = response.data.tag
-     productName.value.value = response.data.productName
-     shortInfo.value.value = response.data.shortInfo
-     longInfo.value.value = response.data.longInfo
-     period.value.value = response.data.period
-     requiredStartMoney.value.value = response.data.requiredStartMoney
-     interestRate.value.value = response.data.interestRate
-     isDeposit.value.value = response.data.isDeposit
-     console.log("잘 나타나고 있니")
-    })
-    .catch(error => {
-      console.error(error);
-    });
+     
 });
 
-  </script>
-  
+
+
+</script>
 
 
 
 
-  <style lang="scss" scoped>
+<style lang="scss" scoped>
   .title{
     display: flex;
     flex-direction: column;
@@ -389,4 +370,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column; 
   }
-  </style>
+  
+
+
+</style>

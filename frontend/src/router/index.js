@@ -55,6 +55,21 @@ const routes = [
         props: true
       },
 
+      {
+        path: '/admin/product/add', 
+        name: 'add_product',
+        component: () => import('@/views/AddProduct.vue'),
+        props: true
+      },
+
+      {
+        path: '/admin/product/add/save', 
+        name: 'save_add_product',
+        component: () => import('@/views/AddProduct.vue'),
+        props: true
+      },
+
+
 
 
 
