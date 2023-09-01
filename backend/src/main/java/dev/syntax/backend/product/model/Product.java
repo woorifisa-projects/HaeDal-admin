@@ -49,14 +49,18 @@ public class Product {
     @Column(name = "interest_rate")
     private double interestRate; // 금리
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product")
     private List<Subscribe> subscribers; // 한 개의 상품에 몇 명의 고객들이 가입했는지 list
 
     @Column(name = "is_deposit")
     private boolean isDeposit; // 예금, 적금 타입 확인용 컬럼(0:적금 1:예금)
 
 
-    @Column(name = "subscription")
-    private int subscription; // 월 납입금액
+    //구매 가능 상품인지 여부
+    @Column(name="product_status", columnDefinition = "BOOLEAN DEFAULT true")
+    private boolean productStatus;
 
+    public boolean getProductStatus() {
+        return this.productStatus;
+    }
 }

@@ -31,6 +31,8 @@ public class ProductResponse {
     private final double interestRate; // 금리
     private List<Subscribe> subscribers; // 한 개의 상품에 몇 명의 고객들이 가입했는지 list
     private boolean isDeposit; // 예금, 적금 타입 확인용 컬럼(0=예금, 1=적금)
+    private boolean productStatus;
+
 
 
     public static ProductResponse from(Product product)  {
@@ -47,6 +49,7 @@ public class ProductResponse {
                 .tag(product.getTag())
                 .productName(product.getProductName())
                 .shortInfo(product.getShortInfo())
+                .productStatus(product.getProductStatus())
                 .build();
     }
 }
