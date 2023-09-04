@@ -20,17 +20,37 @@
             <div class="d-flex justify-end align-center">
                 <v-card-actions>
                     <!-- 이부분 subscribeUser X -> 수정페이지로 가도록 고치기  -->
-                    <v-btn variant="outlined" @click=subsscribeUser(item)> 
+                    <v-btn variant="outlined" @click=editUser(user.userId)> 
                         수정
                     </v-btn>
                     <!-- 이부분 deleteUser X -> 삭제페이지로 가도록 고치기 -->
-                    <v-btn variant="outlined" @click=deleteUser(item)>  
+                    <v-btn variant="outlined" @click=deleteUser(user.userId)>  
                         삭제
                     </v-btn>
                 </v-card-actions>
             </div>
         </v-card>
     </div>
+
+
+    <div class="text-center">
+
+<v-dialog
+  v-model="dialog.isOpen.value" 
+  width="auto"
+>
+  <v-card>
+    <v-card-text>
+      상품이 삭제되었습니다!
+    </v-card-text>
+    <v-card-actions>
+      <v-btn color="primary" block @click="dialog.closeDialog">확인</v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
+  </div>
+
+
 </template>
 
 
@@ -79,54 +99,63 @@ watchEffect(() => {
 })
 
 
+
+// 삭제 시 다이얼로그 창
+const dialog = {
+    isOpen: ref(false),
+    openDialog() {
+      dialog.isOpen.value = true; // 다이얼로그 열기
+    },
+    closeDialog() {
+      dialog.isOpen.value = false; // 다이얼로그 닫기
+      router.push({ name: 'user_management' }); // '고객관리' 경로로 이동
+    }
+  };
+
 // 수정하기 버튼
-const editUser = (user) => {
-    const userId = user.productId;
-    const userName = user.name
-    console.log(userName);
-    console.log(item.deposit);
-    if (item.deposit == true) {
-        router.push(
-            {
-                name: 'subscribeD',
-                params: {
-                    id: productId,
-                }
-            })
-    } else if (item.deposit == false) {
-        router.push({
-            name: 'subscribeI',
-            params: {
-                id: productId,
-            }
-        })
-    }
+// 수정하기 버튼
+const editUser = (userId) => {
+    router.push({ name: 'edit_user', params: { userId: userId } });
+    console.log('수정됨');
 }
 
 
-// 삭제하기 버튼
-const deleteProduct = (item) => {
-    const productId = item.productId;
-    const productName = item.productName
-    console.log(productName);
-    console.log(item.deposit);
-    if (item.deposit == true) {
-        router.push(
-            {
-                name: 'subscribeD',
-                params: {
-                    id: productId,
-                }
-            })
-    } else if (item.deposit == false) {
-        router.push({
-            name: 'subscribeI',
-            params: {
-                id: productId,
-            }
-        })
+
+// 유저 삭제 버튼
+const deleteUser = async (userId) => {
+    const url = `http://localhost:8080/admin/user/${userId}/delete`;
+
+    try {
+        const response = await axiosInstance.delete(url);
+
+        if (response.status === 200) {
+            // POST 요청 성공 시 로직
+        console.log(response.data);
+        dialog.openDialog();
+        console.log("모달창띄웟다");
+        // 수정이 완료되었을 때 다시 상품관리 경로로 이동
+        router.push({ name: 'user_management'});
+        console.log("페이지 이동 성공!")
+
+        }
+
+
+    } catch (error) {
+        console.error(error);
     }
-}
+
+};
+    // axiosInstance.get(url).then((res) => {
+    //     listData.value = res.data.filter(item => item.productStatus === false);
+    // });
+
+    
+
+
+
+
+
+
 </script>
 
 

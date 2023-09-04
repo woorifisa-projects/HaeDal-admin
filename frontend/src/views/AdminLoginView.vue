@@ -13,16 +13,6 @@
         max-width="448"
         rounded="lg"
       >
-        <div class="text-subtitle-1 text-medium-emphasis">Account</div>
-  
-        <v-text-field
-          v-model="id.value.value"
-          density="compact"
-          placeholder="Email address"
-          prepend-inner-icon="mdi-account-outline"
-          variant="outlined"
-          :error-messages="id.errorMessage.value"
-        ></v-text-field>
   
         <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
           Password
@@ -60,15 +50,6 @@
         >
           Log In
         </v-btn>
-  
-        <v-card-text class="text-center">
-          <a
-            class="text-blue text-decoration-none"
-            href="http://localhost:3000/signup"
-          >
-            Sign up now <v-icon icon="mdi-chevron-right"></v-icon>
-          </a>
-        </v-card-text>
       </v-card>
     </div>
     </form>
@@ -80,59 +61,51 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios'
 import { useField, useForm } from 'vee-validate'
-import { useAuthStore } from '@/store/app';
+
 
 const {handleSubmit} = useForm({
       validationSchema: {
-        id (value) {
-          if (value?.length >= 1) return true
-          return 'Id needs to be at least 1 characters.'
-        },
         password (value) {
           if (value?.length >= 1) return true
-          return 'password needs to be at least 1 characters.'
+          return 'password needs to be at least 1 digits.'
         },
       },
-    })
+    });
 
-const id = useField('id')
 const password = useField('password')
-const authStore = useAuthStore();
 const router = useRouter(); // 라우터 객체 가져오기
 const loading = ref(false);
 
 
-const onSubmit = handleSubmit(values => {
-    loading.value = true;
-    setTimeout(() => (loading.value = false), 2000);
-    console.log(values);
-      axios.post("http://localhost:8080/user/login",values)
-      .then(response => {
-        // POST 요청 성공 시 로직
-        console.log(response.data);
-        const receivedToken = response.data.token;
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    const url = "http://localhost:8080/admin/login";
 
-        localStorage.setItem('accessToken',receivedToken);
-        
-         // Pinia store를 이용하여 로그인 상태 업데이트
-        authStore.loginSuccess(receivedToken);
+    console.log('password의 타입은? ' + typeof(values.password));
 
-        console.log("전역관리토큰입니다"+authStore.accessToken);
+    const response = await axios.post(url, null, {
+      params: {
+        password: values.password, // 문자열로 보냄
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-
-
-        // 로그인 후 페이지 이동
-
-        router.push('/home'); 
-
-
-      })
-      // POST 요청 실패 시 로직
-      .catch(error => {
-        console.error(error);
-      });
+    if (response.status === 200 && response.data === "관리자 확인 되었습니다.") {
+      // 로그인 성공 시 로직
+      console.log("로그인 성공");
+      router.push({ name: 'product_management' });
+    } else {
+      // 로그인 실패 시 로직
+      console.error("로그인 실패");
     }
-  )
+  } catch (error) {
+    // POST 요청 실패 시 로직
+    console.error(error);
+  }
+});
+
 
 
 </script>
