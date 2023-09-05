@@ -36,12 +36,6 @@ public class ProductController {
     @GetMapping
     public List<ProductResponse> getAllproducts( ) {
         List<Product> products  =  productService.findAll();
-//        List<Product> sellProducts = new ArrayList<>();
-//        for(int i =0;i<products.size();i++) {
-//            if (products.get(i).getProductStatus() == true) {
-//                sellProducts.add(products.get(i));
-//            }
-//        }
         List<ProductResponse> productResponse = products.stream()
                 .map(ProductResponse::from)
                 .collect(Collectors.toList());
@@ -70,60 +64,42 @@ public class ProductController {
         return ProductResponse.from(updatedProduct);
     }
 
-    
-//    //상품 삭제
-//    @DeleteMapping("/{id}/delete")
-//    void deleteProduct(@PathVariable Long id) {
-//        Product findProduct = productService.findById(id);
-//        productService.delete(findProduct);
-//    }
-
-
     // 상품 삭제
     // status == false -> 프론트에서 보이지 않도록
     @PostMapping("/{productId}/delete")
-    public Product deleteProduct(@PathVariable("productId") Long productId) {
+    public ProductResponse deleteProduct(@PathVariable("productId") Long productId) {
         Product findProduct = productService.findById(productId);
         if (findProduct.getProductStatus() == true) {
             if (findProduct != null) {
                 findProduct.setProductStatus(false); // 상품의 productStatus를 0(false)으로 업데이트
                 Product updatedStatusProduct = productService.save(findProduct); // 업데이트된 정보 저장
-                return updatedStatusProduct;
+                return ProductResponse.from(updatedStatusProduct);
             }
         }
-        return findProduct;
+        return ProductResponse.from(findProduct);
     }
 
 
     // 상품 재등록
     // status == false -> 프론트에서 보이지 않도록
     @PostMapping("/{productId}/return")
-    public Product returnProduct(@PathVariable("productId") Long productId) {
+    public ProductResponse returnProduct(@PathVariable("productId") Long productId) {
         Product findProduct = productService.findById(productId);
         if (findProduct.getProductStatus() == false) {
             if (findProduct != null) {
                 findProduct.setProductStatus(true); // 상품의 productStatus를 1(true)으로 업데이트
                 Product updatedStatusProduct = productService.save(findProduct); // 업데이트된 정보 저장
-                return updatedStatusProduct;
+                return ProductResponse.from(updatedStatusProduct);
             }
         }
-        return findProduct;
+        return ProductResponse.from(findProduct);
     }
 
 
-
-
-
-//    // 상품 추가 화면
-//    @GetMapping("/add")
-//    public List<ProductResponse> showAdd() {
-//        System.out.println();
-//    }
-
     //상품 추가
     @PostMapping("/add")
-    public Product addProduct(@RequestBody Product enterProduct ) {
+    public ProductResponse addProduct(@RequestBody Product enterProduct ) {
         Product savedProduct = productService.save(enterProduct);
-        return savedProduct;
+        return ProductResponse.from(savedProduct);
     }
 }

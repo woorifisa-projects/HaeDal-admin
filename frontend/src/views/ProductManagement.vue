@@ -1,5 +1,4 @@
 <template>
-
     <!-- 로그인 후, or '상품관리 탭'클릭 시 기본으로 보여줄 페이지 -->
 
     <div>
@@ -21,8 +20,8 @@
 
 
     <div id="products" v-bind:class="item.productName" v-for="(item, index) in listData" :key="index">
-        <v-card class="mx-auto" max-width="70%"  >
-            <v-card-item class="products" >
+        <v-card class="mx-auto" max-width="70%">
+            <v-card-item class="products">
                 <div>
                     <div class="text-h6 mb-1">
                         {{ item.productName }}
@@ -33,21 +32,22 @@
                             금리 : {{ item.interestRate }}%
                             최소 가입 금액 : {{ item.requiredStartMoney }}원
                         </span>
-                    </div> 
+                    </div>
                     <div class="text-caption">{{ item.longInfo }}</div>
                 </div>
             </v-card-item>
             <div class="d-flex justify-end align-center">
                 <v-card-actions>
                     <!-- 이부분 subscribeProduct X -> 수정페이지로 가도록 고치기  -->
-                    <v-btn variant="outlined" @click="editProduct(item.productId)">  <!-- href="http://localhost8080/admin/product/edit" -->
+                    <v-btn variant="outlined" @click="editProduct(item.productId)">
+                        <!-- href="http://localhost8080/admin/product/edit" -->
                         수정
                     </v-btn>
                     <!-- 이부분 subscribeProduct X -> 삭제 -->
-                    <v-btn variant="outlined" @click="deleteProduct(item.productId)" v-if="item.productStatus===true">  
+                    <v-btn variant="outlined" @click="deleteProduct(item.productId)" v-if="item.productStatus === true">
                         삭제
                     </v-btn>
-                    <v-btn variant="outlined" @click="returnProduct(item.productId)" v-if="item.productStatus===false">
+                    <v-btn variant="outlined" @click="returnProduct(item.productId)" v-if="item.productStatus === false">
                         재등록
                     </v-btn>
 
@@ -57,7 +57,7 @@
     </div>
 
     <div class="addproduct">
-        <v-btn variant="outlined" @click= "addProduct">
+        <v-btn variant="outlined" @click="addProduct">
             추가
         </v-btn>
     </div>
@@ -65,40 +65,32 @@
 
     <div class="text-center">
 
-<v-dialog
-  v-model="deleteDialog.isOpen.value" 
-  width="auto"
->
-  <v-card>
-    <v-card-text>
-      상품이 삭제되었습니다!
-    </v-card-text>
-    <v-card-actions>
-      <v-btn color="primary" block @click="deleteDialog.closeDialog">확인</v-btn>
-    </v-card-actions>
-  </v-card>
-</v-dialog>
-  </div>
+        <v-dialog v-model="deleteDialog.isOpen.value" width="auto">
+            <v-card>
+                <v-card-text>
+                    상품이 삭제되었습니다!
+                </v-card-text>
+                <v-card-actions>
+                    <v-btn color="primary" block @click="deleteDialog.closeDialog">확인</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </div>
 
 
-  <div class="text-center">
+    <div class="text-center">
 
-<v-dialog
-  v-model="returnDialog.isOpen.value" 
-  width="auto"
->
-  <v-card>
-    <v-card-text>
-      상품이 재등록되었습니다!
-    </v-card-text>
-    <v-card-actions>
-      <v-btn color="primary" block @click="returnDialog.closeDialog">확인</v-btn>
-    </v-card-actions>
-  </v-card>
-</v-dialog>
-  </div>
-
-
+        <v-dialog v-model="returnDialog.isOpen.value" width="auto">
+            <v-card>
+                <v-card-text>
+                    상품이 재등록되었습니다!
+                </v-card-text>
+                <v-card-actions>
+                    <v-btn color="primary" block @click="returnDialog.closeDialog">확인</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </div>
 </template>
 
 
@@ -110,83 +102,37 @@ import { watchEffect, ref } from 'vue'
 import router from '../router'
 
 
-// import { mdiConsoleNetwork } from '@mdi/js';
-
 // 서버에서 받아오는 정보
 const listData = ref([]);
 
-// 상품이 없을 때 띄워주는 메세지
-const showNoDataMessage = ref(false);
-
-
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
-    // baseURL: 'http://localhost:8080', // 서버의 주소
     baseURL: 'http://localhost:8080/admin', // 후에 관리자 서버만들어서 주소넣기
-    // withCredentials: true // CORS 요청에 관련된 설정을 포함
+
 })
 
 
-
-// axios({
-//         method:"post",
-//         url:"http://localhost:8080/admin",
-//         data : requestData,
-//         headers: {
-//           Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // 토큰 포함
-//           // "Content-Type":"application/json" -1개 데이터 직접 보낼때 사용
-//         },
-//     })
-
-
-
 watchEffect(() => {
-
-
     listData.value = [];
-    showNoDataMessage.value = false;
     axiosInstance.get('/product').then((res) => {
         // 서버로부터 받아온 데이터 중 productStatus가 false인 것만 필터링
         const filteredData = res.data.filter(item => item.productStatus === true);
 
         // 필터링된 데이터를 listData에 할당
         listData.value = filteredData;
-
-        // 만약 데이터가 없다면 메시지를 표시
-        if (filteredData.length === 0) {
-            showNoDataMessage.value = true;
-        }
-
         console.log(listData);
     })
-    // axiosInstance.get('/product').then((res) => {
-    //     let tempArr = [...res.data]
-    //     tempArr.forEach((item) => {
-    //         console.log(item)
-
-    //         listData.value.push(item)
-    //     })
-    //     console.log(listData);
-    // })
 })
-
-
 
 // 현재 서비스 중인 상품들만 나타내는 목록(productStatus = true(1))
 const inProgressService = () => {
     listData.value = [];
-    showNoDataMessage.value = false;
     axiosInstance.get('/product').then((res) => {
         // 서버로부터 받아온 데이터 중 productStatus가 false인 것만 필터링
         const filteredData = res.data.filter(item => item.productStatus === true);
 
         // 필터링된 데이터를 listData에 할당
         listData.value = filteredData;
-
-        // 만약 데이터가 없다면 메시지를 표시
-        if (filteredData.length === 0) {
-            showNoDataMessage.value = true;
-        }
 
         console.log(listData);
     });
@@ -197,7 +143,6 @@ const inProgressService = () => {
 // 만료된 서비스 상품들만 나타내는 목록(productStatus = false(0)) -> 상품 '삭제'하여 HaeDal 클라이언트에 보이지 않는 목록
 const doneService = () => {
     listData.value = [];
-    showNoDataMessage.value = false;
     axiosInstance.get('product').then((res) => {
         // 서버로부터 받아온 데이터 중 productStatus가 false인 것만 필터링
         const filteredData = res.data.filter(item => item.productStatus === false);
@@ -209,37 +154,35 @@ const doneService = () => {
         if (filteredData.length === 0) {
             showNoDataMessage.value = true;
         }
-
         console.log(listData);
     });
 }
-
 
 
 // 삭제 시 다이얼로그 창
 const deleteDialog = {
     isOpen: ref(false),
     openDialog() {
-      deleteDialog.isOpen.value = true; // 다이얼로그 열기
+        deleteDialog.isOpen.value = true; // 다이얼로그 열기
     },
     closeDialog() {
-      deleteDialog.isOpen.value = false; // 다이얼로그 닫기
-      router.push({ name: 'product_management' }); // '상품관리' 경로로 이동
+        deleteDialog.isOpen.value = false; // 다이얼로그 닫기
+        router.push({ name: 'product_management' }); // '상품관리' 경로로 이동
     }
-  };
+};
 
 
-  // 재등록 시 다이얼로그 창
+// 재등록 시 다이얼로그 창
 const returnDialog = {
     isOpen: ref(false),
     openDialog() {
-      returnDialog.isOpen.value = true; // 다이얼로그 열기
+        returnDialog.isOpen.value = true; // 다이얼로그 열기
     },
     closeDialog() {
-      returnDialog.isOpen.value = false; // 다이얼로그 닫기
-      router.push({ name: 'product_management' }); // '상품관리' 경로로 이동
+        returnDialog.isOpen.value = false; // 다이얼로그 닫기
+        router.push({ name: 'product_management' }); // '상품관리' 경로로 이동
     }
-  };
+};
 
 
 // 수정하기 버튼
@@ -250,80 +193,55 @@ const editProduct = (productId) => {
 
 
 
-
 // 삭제하기 버튼
 const deleteProduct = async (productId) => {
     const url = `http://localhost:8080/admin/product/${productId}/delete`;
-    // axiosInstance.get(url).then((res) => {
-    //     listData.value = res.data.filter(item => item.productStatus === false);
-    // });
-
     try {
         const response = await axiosInstance.post(url);
-
-        if (response.status === 200) {
-            // POST 요청 성공 시 로직
+        // POST 요청 성공 시 로직
         console.log(response.data);
-        // productName.value = values.productName;
         deleteDialog.openDialog();
         console.log("모달창띄웟다");
         // 수정이 완료되었을 때 다시 상품관리 경로로 이동
-        router.push({ name: 'product_management'});
+        router.push({ name: 'product_management' });
         console.log("페이지 이동 성공!")
-
-        }
-
-
     } catch (error) {
         console.error(error);
-    }
-
+    };
 };
-
 
 // 재등록 버튼
 const returnProduct = async (productId) => {
     const url = `http://localhost:8080/admin/product/${productId}/return`;
-    // axiosInstance.get(url).then((res) => {
-    //     listData.value = res.data.filter(item => item.productStatus === false);
-    // });
 
     try {
         const response = await axiosInstance.post(url);
 
         if (response.status === 200) {
             // POST 요청 성공 시 로직
-        console.log(response.data);
-        // productName.value = values.productName;
-        returnDialog.openDialog();
-        console.log("모달창띄웟다");
-        // 수정이 완료되었을 때 다시 상품관리 경로로 이동
-        router.push({ name: 'product_management'});
-        console.log("페이지 이동 성공!")
-
+            console.log(response.data);
+            // productName.value = values.productName;
+            returnDialog.openDialog();
+            console.log("모달창띄웟다");
+            // 수정이 완료되었을 때 다시 상품관리 경로로 이동
+            router.push({ name: 'product_management' });
+            console.log("페이지 이동 성공!")
         }
-
-
     } catch (error) {
         console.error(error);
     }
-
 };
-
-
-
 
 
 // 추가 버튼
 const addProduct = () => {
-    router.push({ name: 'add_product'});
+    router.push({ name: 'add_product' });
 }
 
 </script>
 
 
 <style lang="scss" scoped>
-
 .mx-auto {
     text-align: center;
     justify-content: center;
@@ -341,9 +259,8 @@ const addProduct = () => {
     margin: 10px 20rem 10rem 20rem;
 }
 
-.addproduct { 
-    margin-top:40px;
+.addproduct {
+    margin-top: 40px;
     margin-left: 80%;
 }
-
 </style>
