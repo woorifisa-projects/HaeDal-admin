@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // 관리자 페이지의 메인 페이지 = 상품 관리 페이지
 @CrossOrigin(origins = "http://localhost:3000")
@@ -56,9 +58,15 @@ public class ProductController {
     // 수정 제출 버튼 클릭시
     @PostMapping("/{productId}/edit/save")
     public ProductResponse submitEdit(@PathVariable("productId") Long productId, @RequestBody Product editProduct) {
+
         editProduct.setProductId(productId);
+        editProduct.setProductStatus(true);
+        System.out.println("editProduct의 값은? " + editProduct);
+        System.out.println("editProduct의 isDeposit 값은? " +  editProduct.isDeposit());
+
         Product updatedProduct = productService.save(editProduct);
         System.out.println("수정되었습니다.");
+        System.out.println(updatedProduct.getUserAgeGroup());
         return ProductResponse.from(updatedProduct);
     }
 
@@ -86,6 +94,21 @@ public class ProductController {
         return findProduct;
     }
 
+
+    // 상품 재등록
+    // status == false -> 프론트에서 보이지 않도록
+    @PostMapping("/{productId}/return")
+    public Product returnProduct(@PathVariable("productId") Long productId) {
+        Product findProduct = productService.findById(productId);
+        if (findProduct.getProductStatus() == false) {
+            if (findProduct != null) {
+                findProduct.setProductStatus(true); // 상품의 productStatus를 1(true)으로 업데이트
+                Product updatedStatusProduct = productService.save(findProduct); // 업데이트된 정보 저장
+                return updatedStatusProduct;
+            }
+        }
+        return findProduct;
+    }
 
 
 

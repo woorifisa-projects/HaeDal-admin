@@ -1,8 +1,6 @@
 package dev.syntax.backend.user.dto.response;
 
 
-import dev.syntax.backend.product.dto.response.ProductResponse;
-import dev.syntax.backend.product.model.Product;
 import dev.syntax.backend.user.model.ServicePurpose;
 import dev.syntax.backend.user.model.User;
 import dev.syntax.backend.user.model.UserAgeGroup;
@@ -15,6 +13,7 @@ import lombok.Setter;
 @Setter
 public class UserResponse {
 
+    private final Long userId;
     private String id;
     private String password;
     private String name;
@@ -26,7 +25,8 @@ public class UserResponse {
     private int authNumber;
 
     @Builder
-    public UserResponse(String id, String password, String name, String phoneNumber, ServicePurpose servicePurpose, UserAgeGroup userAgeGroup, String accountNumber, Long asset, int authNumber) {
+    public UserResponse(Long userId, String id, String password, String name, String phoneNumber, ServicePurpose servicePurpose, UserAgeGroup userAgeGroup, String accountNumber, Long asset, int authNumber) {
+        this.userId = userId;
         this.id = id;
         this.password = password;
         this.name = name;
@@ -40,6 +40,7 @@ public class UserResponse {
 
     public static UserResponse from(User user)  {
         return UserResponse.builder()
+                .userId(user.getUserId())
                 .id(user.getId())
                 .password(user.getPassword())
                 .name(user.getName())

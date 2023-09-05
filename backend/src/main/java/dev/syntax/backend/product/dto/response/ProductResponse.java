@@ -1,5 +1,6 @@
 package dev.syntax.backend.product.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.syntax.backend.product.model.Product;
 import dev.syntax.backend.product.model.Tag;
 import dev.syntax.backend.subscribe.model.Subscribe;
@@ -19,7 +20,7 @@ public class ProductResponse {
 
 
     private final Long productId; // 상품 id
-    private final Long maxProductAsset; // 상품 최대금액
+    private final Long maxProductMoney; // 상품 최대금액
     private ServicePurpose servicePurpose; // 서비스 이용 목적
     private UserAgeGroup userAgeGroup; // 연령대
     private Tag tag;// 어떤 태그를 가지고 있는지
@@ -30,8 +31,11 @@ public class ProductResponse {
     private int requiredStartMoney; // 시작 금액
     private final double interestRate; // 금리
     private List<Subscribe> subscribers; // 한 개의 상품에 몇 명의 고객들이 가입했는지 list
+
+//    @JsonProperty(value="isDeposit") // json 전달시에 명시해주는 필드명 -> 이름이 'deposit'으로 지정되는 현상 방지
     private boolean isDeposit; // 예금, 적금 타입 확인용 컬럼(0=예금, 1=적금)
     private boolean productStatus;
+
 
 
 
@@ -43,7 +47,7 @@ public class ProductResponse {
                 .period(product.getPeriod())
                 .interestRate(product.getInterestRate())
                 .isDeposit(product.isDeposit())  // boolean타입일 때는 Getter는 is로 시작하는 것이 관례
-                .maxProductAsset(product.getMaxProductMoney())
+                .maxProductMoney(product.getMaxProductMoney())
                 .servicePurpose(product.getServicePurpose())
                 .userAgeGroup(product.getUserAgeGroup())
                 .tag(product.getTag())

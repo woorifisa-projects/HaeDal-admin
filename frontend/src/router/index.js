@@ -27,6 +27,9 @@ const routes = [
         component: () => import('@/views/AdminLoginView.vue'),
       },
 
+
+
+      // 상품관련
       {
         path: '/admin/product',
         name: 'product_management',
@@ -34,12 +37,6 @@ const routes = [
         props: true
       },
 
-      {
-        path: '/admin/user',
-        name: 'user_management',
-        component: () => import('@/views/UserManagement.vue'),
-        props: true
-      },
 
       {
         path: '/admin/product/:productId/edit', // 동적 세그먼트 :product_id 사용,
@@ -63,9 +60,49 @@ const routes = [
       },
 
       {
+        path: '/admin/product/delete', 
+        name: 'delete_product',
+        component: () => import('@/views/ProductManagement.vue'),
+        props: true
+      },
+
+      {
+        path: '/admin/product/:productId/return', 
+        name: 'return_product',
+        component: () => import('@/views/ProductManagement.vue'),
+        props: true
+      },
+
+      {
         path: '/admin/product/add/save', 
         name: 'save_add_product',
         component: () => import('@/views/AddProduct.vue'),
+        props: true
+      },
+
+
+
+
+
+      // user 관련
+      {
+        path: '/admin/user',
+        name: 'user_management',
+        component: () => import('@/views/UserManagement.vue'),
+        props: true
+      },
+
+      {
+        path: '/admin/user/:userId/edit',
+        name: 'edit_user',
+        component: () => import('@/views/EditUser.vue'),
+        props: true
+      },
+
+      {
+        path: '/admin/user/:userId/delete',
+        name: 'delete_user',
+        component: () => import('@/views/UserManagement.vue'),
         props: true
       },
 

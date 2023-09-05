@@ -1,32 +1,58 @@
 <template>
     <form @submit.prevent="submit">
     <div class = "title">
-        상품정보 수정
+        유저 정보
     </div>
-       <v-text-field class = "productName"
-        v-model="productName.value.value"
+       <v-text-field class = "id"
+        v-model="id.value.value"
         
         :counter="20"
-        :error-messages="productName.errorMessage.value"
-        label="productName"
+        :error-messages="id.errorMessage.value"
+        label="id"
       >
       <template v-slot:prepend> 
-        <div>상품명</div>
+        <div>로그인 id</div>
            </template>
     </v-text-field>
   
-      <v-text-field class = "maxProductMoney"
-        v-model="maxProductMoney.value.value"
+      <v-text-field class = "password"
+        v-model="password.value.value"
         
-        :counter="9"
-        :error-messages="maxProductMoney.errorMessage.value"
-        label="maxProductMoney"
+        :counter="20"
+        :error-messages="password.errorMessage.value"
+        label="password"
       >
       <template v-slot:prepend> 
-        <div>상품 최대금액</div>
+        <div>로그인 비밀번호</div>
            </template>
       </v-text-field>
-  
+
+
+      <v-text-field class = "name"
+        v-model="name.value.value"
+        
+        :counter="20"
+        :error-messages="name.errorMessage.value"
+        label="name"
+      >
+      <template v-slot:prepend> 
+        <div>고객이름</div>
+           </template>
+      </v-text-field>
+
+
+      <v-text-field
+        v-model="phoneNumber.value.value"
+        :counter="12"
+        :error-messages="phoneNumber.errorMessage.value"
+        label="phoneNumber"
+      >
+      <template v-slot:prepend> 
+        <div>고객 전화번호</div>
+           </template>
+      </v-text-field>
+
+
       <v-select
         v-model="userAgeGroup.value.value"
         :items="ageitems"
@@ -37,7 +63,8 @@
         <div>연령대</div>
            </template>
       </v-select>
-  
+
+
       <v-select
         v-model="servicePurpose.value.value"
         :items="purposeitems"
@@ -48,83 +75,40 @@
         <div>이용목적</div>
            </template>
       </v-select>
-
-      <v-select
-        v-model="tag.value.value"
-        :items="tagitems"
-        :error-messages="tag.errorMessage.value"
-        label="tag"
-      >
-      <template v-slot:prepend> 
-        <div>태그</div>
-           </template>
-      </v-select>
-
-      <v-select
-        v-model="deposit.value.value"
-        :items="depositItems"
-        :error-messages="deposit.errorMessage.value"
-        label="isDeposit"
-      >
-      <template v-slot:prepend> 
-        <div>상품 종류</div>
-           </template>
-          </v-select>
-
-
   
+
+
+
       <v-text-field
-        v-model="shortInfo.value.value"
-        :counter="50"
-        :error-messages="shortInfo.errorMessage.value"
-        label="shortInfo"
-      >
-      <template v-slot:prepend> 
-        <div>간략한 상품 설명</div>
-           </template>
-      </v-text-field>
-  
-      <v-text-field
-        v-model="longInfo.value.value"
+        v-model="accountNumber.value.value"
         :counter="100"
-        :error-messages="longInfo.errorMessage.value"
-        label="longInfo"
+        :error-messages="accountNumber.errorMessage.value"
+        label="accountNumber"
       >
       <template v-slot:prepend> 
-        <div>상품 전체정보</div>
-           </template>
-      </v-text-field>
-  
-      <v-text-field
-        v-model="period.value.value"
-        :counter="3"
-        :error-messages="period.errorMessage.value"
-        label="period"
-      >
-      <template v-slot:prepend> 
-        <div>가입기간</div>
+        <div>계좌번호</div>
            </template>
       </v-text-field>
 
       <v-text-field
-        v-model="requiredStartMoney.value.value"
-        :counter="9"
-        :error-messages="requiredStartMoney.errorMessage.value"
-        label="requiredStartMoney"
+        v-model="authNumber.value.value"
+        :counter="20"
+        :error-messages="authNumber.errorMessage.value"
+        label="authNumber"
       >
       <template v-slot:prepend> 
-        <div>상품 시작금액</div>
+        <div>인증번호</div>
            </template>
       </v-text-field>
 
       <v-text-field
-        v-model="interestRate.value.value"
-        :counter="4"
-        :error-messages="interestRate.errorMessage.value"
-        label="interestRate"
+        v-model="asset.value.value"
+        :counter="10"
+        :error-messages="asset.errorMessage.value"
+        label="asset"
       >
       <template v-slot:prepend> 
-        <div>금리</div>
+        <div>고객 자산</div>
            </template>
       </v-text-field>
 
@@ -148,7 +132,7 @@
       >
         <v-card>
           <v-card-text>
-            상품의 정보가 수정되었습니다!
+            고객의 정보가 수정되었습니다!
           </v-card-text>
           <v-card-actions>
             <v-btn color="primary" block @click="dialog.closeDialog">확인</v-btn>
@@ -175,8 +159,9 @@
 
 
     const props = defineProps({
-    productId: String
+    userId: String
     });
+
 
 
     const dialog = {
@@ -186,19 +171,27 @@
     },
     closeDialog() {
       dialog.isOpen.value = false; // 다이얼로그 닫기
-      router.push({ name: 'product_management' }); // '상품관리' 경로로 이동
+      router.push({ name: 'user_management' }); // '상품관리' 경로로 이동
     }
   };
   
     const { handleSubmit, handleReset } = useForm({
       validationSchema: {
-        productName (value) {
-          if (value?.length >= 2) return true
-          return 'Name needs to be at least 2 characters.'
+        id (value) {
+          if (value?.length >= 5) return true
+          return 'id needs to be at least 5 characters.'
         },
-        maxProductMoney (value) {
-          if (value?.length > 0 ) return true
-          return 'maxProductMoney is bigger than 0.'
+        password (value) {
+          if (value?.length > 1 ) return true
+          return 'password is bigger than 1.'
+        },
+        name (value) {
+          if (value?.length > 2 ) return true
+          return 'name is bigger than 5.'
+        },
+        phoneNumber (value) {
+          if (value?.length < 12) return true
+          return 'phoneNumber is bigger than 10.'
         },
         userAgeGroup (value) {
           if (value) return true
@@ -208,51 +201,33 @@
           if (value) return true
           return 'servicePurpose an item.'
         },
-        tag (value) {
-          if (value) return true
-          return 'tag an item.'
+        accountNumber (value) {
+          if (value?.length > 8) return true
+          return 'accountNumber needs to be at 10 digits.'
         },
-        deposit (value) {
-          if (value) return true
-          return 'deposit an item'  
-        },
-        shortInfo (value) {
-          if (value?.length >= 10) return true
-          return 'shortInfo needs to be at 10 characters.'
-        },
-        longInfo (value) {
-          if (value?.length >= 10) return true
-          return 'longInfo needs to be at 10 characters.'
-        },
-        period (value) {
-          if (value >= 1) return true
-          return 'period is bigger than 1.'  
-        },
-        requiredStartMoney (value) {
+        authNumber (value) {
           if (value > 0) return true
-          return 'requiredStartMoney is bigger than 0.'
+          return 'authNumber is bigger than 0.'
         },
-        interestRate (value) {
+        asset (value) {
           if (value > 0) return true
-          return 'interestRate is bigger than 0.'
+          return 'asset is bigger than 0.'
         },
 
       },
     })
     
 
-    const maxProductMoney = useField('maxProductMoney') // 상품 최대금액
+    const id = useField('id') // 사용자 로그인 id
+    const password = useField('password')// 사용자 로그인 password
+    const name = useField('name') // 사용자 이름
     const servicePurpose = useField('servicePurpose')// 서비스 이용 목적
     const userAgeGroup = useField('userAgeGroup') // 연령대
-    const tag = useField('tag') // 어떤 태그를 가지고 있는지
-    const productName = useField('productName') // 상품 이름
-    const shortInfo = useField('shortInfo') // 상품 한 줄 설명
-    const longInfo = useField('longInfo') // 상품 전체 설명
-    const period = useField('period') // 저축 기간
-    const requiredStartMoney = useField('requiredStartMoney') // 시작 금액
-    const interestRate = useField('interestRate') // 금리
-    const deposit = useField('deposit') // 예금, 적금 타입 확인용 컬럼(0=예금, 1=적금)
-    const productStatus = useField('productStatus')
+    const phoneNumber = useField('phoneNumber') // 사용자 전화번호
+    const accountNumber = useField('accountNumber') // 계좌번호
+    const authNumber = useField('authNumber') // 인증 번호
+    const asset = useField('asset') // 사용자 자산
+
 
 
 
@@ -271,17 +246,7 @@
       '목돈 마련',
       '기타',
     ])
-    const tagitems = ref([
-        '금융',
-        '테마',
-    ])
-
-
-    // boolean 값 
-    const depositItems = ref([
-        '적금',
-        '예금',
-    ])
+    
 
 
 
@@ -306,23 +271,11 @@
       '기타': 'OTHERS',
     }
     
-    const tagEnumMapping = {
-        '금융' : 'FINANCE',
-        '테마' : 'THEMA',
-    }
-
-    const depositBooleanMapping = {
-        '적금' : false,
-        '예금' : true,
-    }
-
 
   
     const mapToAgeEnum = (value) => ageEnumMapping[value];
     const mapToPurposeEnum = (value) => purposeEnumMapping[value];
-    const mapToTag = (value) => tagEnumMapping[value];
-    const mapToDeposit = (value) => depositBooleanMapping[value];
-
+    
 
     const mapAgeEnumToValue = (value) => {
         for (const key in ageEnumMapping) {
@@ -343,26 +296,7 @@
       };  
 
 
-    const maptagEnumToValue = (value) => {
-        for (const key in tagEnumMapping) {
-          if (tagEnumMapping[key] === value) {
-      return key;
-          }
-        }
-      return value; // 만약 일치하는 값이 없으면 그대로 반환
-      };  
-
-      
-
-    const mapDepositBooleanToValue = (value) => {
-        for (const key in depositBooleanMapping) {
-          if (depositBooleanMapping[key] === value) {
-      return key;
-          }
-        }
-      return value; // 만약 일치하는 값이 없으면 그대로 반환
-      };  
-      
+    
   
 
     console.log('여기서는 mapToAgeEnum이 어떤 값들을 가질까? :' + mapToAgeEnum('10대'))
@@ -376,9 +310,8 @@
 
       const ageEnum = mapToAgeEnum(mapAgeEnumToValue(values.userAgeGroup));
       const purposeEnum = mapToPurposeEnum(mapPurposeEnumToValue(values.servicePurpose));
-      const tagEnum = mapToTag(maptagEnumToValue(values.tag));
-      const depositBoolean = mapToDeposit(mapDepositBooleanToValue(values.deposit));
-        const productId = props.productId;
+
+        const userId = props.userId;
 
 
         console.log('관리자가 수정한 연령대 값 '+ mapAgeEnumToValue(values.userAgeGroup))
@@ -387,19 +320,16 @@
         console.log('const ageEnum = mapToAgeEnum(values.userAgeGroup) 값은? : ' + JSON.stringify(ageEnum));
         console.log('const ageEnum = mapToAgeEnum(values.userAgeGroup) 타입은? : ' + typeof(ageEnum));
 
-      const dataToSend = { ...values, deposit: depositBoolean.toString(), userAgeGroup: ageEnum, servicePurpose: purposeEnum, tag: tagEnum };
+      const dataToSend = { ...values, userAgeGroup: ageEnum, servicePurpose: purposeEnum };
   
       console.log('악 모르겠어' + JSON.stringify(dataToSend));
      
       console.log('ageEnum 타입은? ' + typeof(ageEnum));
       console.log('purposeEnum 타입은? ' + typeof(purposeEnum));
-      console.log('tagEnum 타입은? ' + typeof(tagEnum));
-      console.log('depositBoolean 타입은? ' + typeof(depositBoolean));
-      console.log('depositBoolean 값은? ' + depositBoolean);
 
-      console.log(dataToSend);
 
-      axios.post(`http://localhost:8080/admin/product/${productId}/edit/save`, dataToSend, {
+
+      axios.post(`http://localhost:8080/admin/user/${userId}/edit`, dataToSend, {
         headers: {
       'Content-Type': 'application/json',
         },
@@ -408,12 +338,12 @@
       .then(response => {
         // POST 요청 성공 시 로직
         console.log(response.data);
-        productName.value = values.productName;
+        id.value = values.id;
         dialog.openDialog();
         console.log("모달창띄웟다");
         // 수정이 완료되었을 때 'save' 경로로 이동
         // location.reload(); // 현재 페이지 리로드
-        router.push({ name: 'save_edited_product', params: { productId } });
+        router.push({ name: 'save_edit_user', params: { userId } });
         console.log("페이지 이동 성공!")
       })
       // POST 요청 실패 시 로직
@@ -426,23 +356,21 @@
 
 
 onMounted(() => {
-    const productId = props.productId; // props로 받아온 product_id 사용
+    const userId = props.userId; // props로 받아온 user_id 사용
 
-     axios.get(`http://localhost:8080/admin/product/${productId}/edit`)
+     axios.get(`http://localhost:8080/admin/user/${userId}/edit`)
     .then (response => {
       console.log(response.data);
-     productName.value.value = response.data.name
-     maxProductMoney.value.value = response.data.maxProductMoney
+     id.value.value = response.data.id
+     password.value.value = response.data.password
+     name.value.value = response.data.name
+     phoneNumber.value.value = response.data.phoneNumber
      servicePurpose.value.value = mapPurposeEnumToValue(response.data.servicePurpose)
      userAgeGroup.value.value = mapAgeEnumToValue(response.data.userAgeGroup)
-     tag.value.value = maptagEnumToValue(response.data.tag)
-     productName.value.value = response.data.productName
-     shortInfo.value.value = response.data.shortInfo
-     longInfo.value.value = response.data.longInfo
-     period.value.value = response.data.period
-     requiredStartMoney.value.value = response.data.requiredStartMoney
-     interestRate.value.value = response.data.interestRate
-     deposit.value.value = mapDepositBooleanToValue(response.data.deposit)
+     accountNumber.value.value = response.data.accountNumber
+     authNumber.value.value = response.data.authNumber
+     asset.value.value = response.data.asset
+
      console.log("잘 나타나고 있니")
     })
     .catch(error => {

@@ -31,23 +31,23 @@ public class UserController {
     }
 
     //특정 고객 정보 수정 화면
-    @GetMapping("/{user_id}/edit")
-    public UserResponse showEdit(@PathVariable("user_id") Long userId) {
+    @GetMapping("/{userId}/edit")
+    public UserResponse showEdit(@PathVariable("userId") Long userId) {
         User user = userService.findById(userId);
         return UserResponse.from(user);
     }
 
     // 수정 제출 버튼시
-    @PostMapping("/{user_id}/edit")
-    public UserResponse submitEdit(@PathVariable("user_id") Long userId, @RequestBody User editUser) {
+    @PostMapping("/{userId}/edit")
+    public UserResponse submitEdit(@PathVariable("userId") Long userId, @RequestBody User editUser) {
         editUser.setUserId(userId);
         User updatedUser = userService.saveUser(editUser);
         return UserResponse.from(updatedUser);
     }
 
     //특정 고객 정보 삭제
-    @DeleteMapping("/{user_id}/delete")
-    public void deleteUser(@PathVariable("user_id") Long userId){
+    @DeleteMapping("/{userId}/delete")
+    public void deleteUser(@PathVariable("userId") Long userId){
         User user = userService.findById(userId);
         userService.delete(user);
         System.out.println("삭제되었습니다");

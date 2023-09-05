@@ -2,8 +2,26 @@
 
     <!-- 로그인 후, or '상품관리 탭'클릭 시 기본으로 보여줄 페이지 -->
 
+    <div>
+        <v-layout class="overflow-visible" style="height: 56px; box-shadow: none; margin-bottom:30px;">
+            <v-bottom-navigation v-model="value" color="teal" grow>
+                <v-btn @click="inProgressService">
+                    현재 서비스 상품
+                </v-btn>
+
+                <v-btn @click="doneService">
+                    서비스 만료 상품
+                </v-btn>
+            </v-bottom-navigation>
+        </v-layout>
+        <v-divider :thickness="3" color="info" style="width:60%;     border-style: double;
+    margin: auto;"></v-divider>
+    </div>
+
+
+
     <div id="products" v-bind:class="item.productName" v-for="(item, index) in listData" :key="index">
-        <v-card v-if="item.productStatus === true" class="mx-auto" max-width="70%"  >
+        <v-card class="mx-auto" max-width="70%"  >
             <v-card-item class="products" >
                 <div>
                     <div class="text-h6 mb-1">
@@ -26,16 +44,19 @@
                         수정
                     </v-btn>
                     <!-- 이부분 subscribeProduct X -> 삭제 -->
-                    <v-btn variant="outlined" @click="deleteProduct(item.productId)">  
+                    <v-btn variant="outlined" @click="deleteProduct(item.productId)" v-if="item.productStatus===true">  
                         삭제
                     </v-btn>
+                    <v-btn variant="outlined" @click="returnProduct(item.productId)" v-if="item.productStatus===false">
+                        재등록
+                    </v-btn>
+
                 </v-card-actions>
             </div>
         </v-card>
     </div>
 
     <div class="addproduct">
-
         <v-btn variant="outlined" @click= "addProduct">
             추가
         </v-btn>
@@ -45,7 +66,7 @@
     <div class="text-center">
 
 <v-dialog
-  v-model="dialog.isOpen.value" 
+  v-model="deleteDialog.isOpen.value" 
   width="auto"
 >
   <v-card>
@@ -53,7 +74,25 @@
       상품이 삭제되었습니다!
     </v-card-text>
     <v-card-actions>
-      <v-btn color="primary" block @click="dialog.closeDialog">확인</v-btn>
+      <v-btn color="primary" block @click="deleteDialog.closeDialog">확인</v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
+  </div>
+
+
+  <div class="text-center">
+
+<v-dialog
+  v-model="returnDialog.isOpen.value" 
+  width="auto"
+>
+  <v-card>
+    <v-card-text>
+      상품이 재등록되었습니다!
+    </v-card-text>
+    <v-card-actions>
+      <v-btn color="primary" block @click="returnDialog.closeDialog">확인</v-btn>
     </v-card-actions>
   </v-card>
 </v-dialog>
@@ -75,6 +114,9 @@ import router from '../router'
 
 // 서버에서 받아오는 정보
 const listData = ref([]);
+
+// 상품이 없을 때 띄워주는 메세지
+const showNoDataMessage = ref(false);
 
 
 // Axios 인스턴스 생성
@@ -98,38 +140,103 @@ const axiosInstance = axios.create({
 
 
 
-
 watchEffect(() => {
-    axiosInstance.get('/product').then((res) => {
-        let tempArr = [...res.data]
-        tempArr.forEach((item) => {
-            console.log(item)
 
-            listData.value.push(item)
-        })
+
+    listData.value = [];
+    showNoDataMessage.value = false;
+    axiosInstance.get('/product').then((res) => {
+        // 서버로부터 받아온 데이터 중 productStatus가 false인 것만 필터링
+        const filteredData = res.data.filter(item => item.productStatus === true);
+
+        // 필터링된 데이터를 listData에 할당
+        listData.value = filteredData;
+
+        // 만약 데이터가 없다면 메시지를 표시
+        if (filteredData.length === 0) {
+            showNoDataMessage.value = true;
+        }
+
         console.log(listData);
     })
+    // axiosInstance.get('/product').then((res) => {
+    //     let tempArr = [...res.data]
+    //     tempArr.forEach((item) => {
+    //         console.log(item)
+
+    //         listData.value.push(item)
+    //     })
+    //     console.log(listData);
+    // })
 })
 
 
-// watchEffect(() => {
-//     axiosInstance.get('/product').then((res) => {
-//         listData.value = res.data.filter(item => item.productStatus === true);
-//     })
-// })
+
+// 현재 서비스 중인 상품들만 나타내는 목록(productStatus = true(1))
+const inProgressService = () => {
+    listData.value = [];
+    showNoDataMessage.value = false;
+    axiosInstance.get('/product').then((res) => {
+        // 서버로부터 받아온 데이터 중 productStatus가 false인 것만 필터링
+        const filteredData = res.data.filter(item => item.productStatus === true);
+
+        // 필터링된 데이터를 listData에 할당
+        listData.value = filteredData;
+
+        // 만약 데이터가 없다면 메시지를 표시
+        if (filteredData.length === 0) {
+            showNoDataMessage.value = true;
+        }
+
+        console.log(listData);
+    });
+}
 
 
+
+// 만료된 서비스 상품들만 나타내는 목록(productStatus = false(0)) -> 상품 '삭제'하여 HaeDal 클라이언트에 보이지 않는 목록
+const doneService = () => {
+    listData.value = [];
+    showNoDataMessage.value = false;
+    axiosInstance.get('product').then((res) => {
+        // 서버로부터 받아온 데이터 중 productStatus가 false인 것만 필터링
+        const filteredData = res.data.filter(item => item.productStatus === false);
+
+        // 필터링된 데이터를 listData에 할당
+        listData.value = filteredData;
+
+        // 만약 데이터가 없다면 메시지를 표시
+        if (filteredData.length === 0) {
+            showNoDataMessage.value = true;
+        }
+
+        console.log(listData);
+    });
+}
 
 
 
 // 삭제 시 다이얼로그 창
-const dialog = {
+const deleteDialog = {
     isOpen: ref(false),
     openDialog() {
-      dialog.isOpen.value = true; // 다이얼로그 열기
+      deleteDialog.isOpen.value = true; // 다이얼로그 열기
     },
     closeDialog() {
-      dialog.isOpen.value = false; // 다이얼로그 닫기
+      deleteDialog.isOpen.value = false; // 다이얼로그 닫기
+      router.push({ name: 'product_management' }); // '상품관리' 경로로 이동
+    }
+  };
+
+
+  // 재등록 시 다이얼로그 창
+const returnDialog = {
+    isOpen: ref(false),
+    openDialog() {
+      returnDialog.isOpen.value = true; // 다이얼로그 열기
+    },
+    closeDialog() {
+      returnDialog.isOpen.value = false; // 다이얼로그 닫기
       router.push({ name: 'product_management' }); // '상품관리' 경로로 이동
     }
   };
@@ -154,19 +261,11 @@ const deleteProduct = async (productId) => {
     try {
         const response = await axiosInstance.post(url);
 
-        
-        // if (response.status === 200) {
-        //     // 서버에서 업데이트된 데이터 받아오기
-        //     // axiosInstance.get('/product').then((res) => {
-        //     //     listData.value = res.data.filter(item => item.productStatus === true);
-        //     // });
-        // }
-
         if (response.status === 200) {
             // POST 요청 성공 시 로직
         console.log(response.data);
         // productName.value = values.productName;
-        dialog.openDialog();
+        deleteDialog.openDialog();
         console.log("모달창띄웟다");
         // 수정이 완료되었을 때 다시 상품관리 경로로 이동
         router.push({ name: 'product_management'});
@@ -174,16 +273,45 @@ const deleteProduct = async (productId) => {
 
         }
 
-        // //     // 요청이 성공되었을때, 서버에서 업데이트된 데이터 받아오기
-        //     axiosInstance.get('/product').then((res) => {
-        //         listData.value = res.data.filter(item => item.productStatus === true);
-        //     });
-        // }
+
     } catch (error) {
         console.error(error);
     }
 
 };
+
+
+// 재등록 버튼
+const returnProduct = async (productId) => {
+    const url = `http://localhost:8080/admin/product/${productId}/return`;
+    // axiosInstance.get(url).then((res) => {
+    //     listData.value = res.data.filter(item => item.productStatus === false);
+    // });
+
+    try {
+        const response = await axiosInstance.post(url);
+
+        if (response.status === 200) {
+            // POST 요청 성공 시 로직
+        console.log(response.data);
+        // productName.value = values.productName;
+        returnDialog.openDialog();
+        console.log("모달창띄웟다");
+        // 수정이 완료되었을 때 다시 상품관리 경로로 이동
+        router.push({ name: 'product_management'});
+        console.log("페이지 이동 성공!")
+
+        }
+
+
+    } catch (error) {
+        console.error(error);
+    }
+
+};
+
+
+
 
 
 // 추가 버튼
@@ -214,8 +342,8 @@ const addProduct = () => {
 }
 
 .addproduct { 
-    margin: auto;
-
+    margin-top:40px;
+    margin-left: 80%;
 }
 
 </style>
