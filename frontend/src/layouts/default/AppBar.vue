@@ -10,14 +10,8 @@
         ></v-btn> -->
 
         <v-toolbar-items>
-        <v-btn
-          v-for="link in links"
-          :key="link"
-          :text="link"
-          variant="text"
-          :to="goLinkPath(link)"
-        ></v-btn>
-      </v-toolbar-items>
+          <v-btn v-for="link in links" :key="link" :text="link" variant="text" :to="goLinkPath(link)"></v-btn>
+        </v-toolbar-items>
 
 
 
@@ -60,9 +54,9 @@ const username = ref(0);
 const authStore = useAuthStore();
 
 const links = [
-'상품관리',
-'고객관리',
-'로그관리',
+  '상품관리',
+  '고객관리',
+  '로그관리',
 ];
 
 
@@ -71,9 +65,9 @@ const goLinkPath = (link) => {
     return '/admin/product';
   } else if (link === '고객관리') {
     return '/admin/user';
- } // else if (link === '로그관리') {
-  //   return '/admin/log';
-  // }
+  } else if (link === '로그관리') {
+    return '/admin/log';
+  }
 };
 
 const submit = () => {
@@ -111,7 +105,7 @@ onMounted(() => {
         console.log(response.data.name);
         authStore.setUserName(response.data.name)
         // 전역으로 authStore에 저장해서 username 으로 접근하여 사용
-        console.log("오이오이"+authStore.username);
+        console.log("오이오이" + authStore.username);
         username.value = authStore.username;
       })
   }
@@ -125,10 +119,8 @@ onMounted(() => {
 
 
 <style>
-.logo{
+.logo {
   width: 120px;
   margin: 2rem;
 }
-
-
 </style>

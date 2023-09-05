@@ -21,12 +21,6 @@ const routes = [
         component: () => import(/* webpackChunkName: "home" */ '@/views/Header.vue'),
       },
 
-      {
-        path: '/admin/login',
-        name: 'admin_login_view',
-        component: () => import('@/views/AdminLoginView.vue'),
-      },
-
 
 
       // 상품관련
@@ -53,28 +47,28 @@ const routes = [
       },
 
       {
-        path: '/admin/product/add', 
+        path: '/admin/product/add',
         name: 'add_product',
         component: () => import('@/views/AddProduct.vue'),
         props: true
       },
 
       {
-        path: '/admin/product/delete', 
+        path: '/admin/product/delete',
         name: 'delete_product',
         component: () => import('@/views/ProductManagement.vue'),
         props: true
       },
 
       {
-        path: '/admin/product/:productId/return', 
+        path: '/admin/product/:productId/return',
         name: 'return_product',
         component: () => import('@/views/ProductManagement.vue'),
         props: true
       },
 
       {
-        path: '/admin/product/add/save', 
+        path: '/admin/product/add/save',
         name: 'save_add_product',
         component: () => import('@/views/AddProduct.vue'),
         props: true
@@ -106,12 +100,19 @@ const routes = [
         props: true
       },
 
-
-
-
-
+      //log 페이지
+      {
+        path: '/admin/log',
+        name: 'log',
+        component: () => import('@/views/LogManagement.vue'),
+      }
     ],
+  }, {
+    path: '/admin/login',
+    name: 'admin_login_view',
+    component: () => import('@/views/AdminLoginView.vue'),
   },
+
 ]
 
 const router = createRouter({

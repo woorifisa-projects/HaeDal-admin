@@ -13,18 +13,16 @@ public class AdminResponse {
 
     private Long id;
     private Long password;
-    private String log;
 
     @Builder
-    public AdminResponse(Long id, Long password, String log) {
+    public AdminResponse(Long id, Long password) {
         this.id = id;
         this.password = password;
-        this.log = log;
     }
 
 
 
     public static AdminResponse adminInfoFrom(Admin admin) {
-        return new AdminResponse(admin.getId(), admin.getPassword(), admin.getLog());
+        return new AdminResponse(admin.getId(), admin.getPassword());
     }
 }
