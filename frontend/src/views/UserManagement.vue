@@ -113,10 +113,10 @@ watchEffect(() => {
 const deleteDialog = {
     isOpen: ref(false),
     openDialog() {
-        dialog.isOpen.value = true; // 다이얼로그 열기
+        deleteDialog.isOpen.value = true; // 다이얼로그 열기
     },
     closeDialog() {
-        dialog.isOpen.value = false; // 다이얼로그 닫기
+        deleteDialog.isOpen.value = false; // 다이얼로그 닫기
         router.push({ name: 'user_management' }); // '고객관리' 경로로 이동
     }
 };
@@ -147,12 +147,12 @@ const deleteUser = async (userId) => {
     const url = `http://localhost:8080/admin/user/${userId}/delete`;
 
     try {
-        const response = await axiosInstance.delete(url);
+        const response = await axiosInstance.post(url);
 
         if (response.status === 200) {
             // POST 요청 성공 시 로직
             console.log(response.data);
-            dialog.openDialog();
+            deleteDialog.openDialog();
             console.log("모달창띄웟다");
             // 수정이 완료되었을 때 다시 상품관리 경로로 이동
             router.push({ name: 'user_management' });
