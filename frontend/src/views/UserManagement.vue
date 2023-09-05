@@ -37,10 +37,10 @@
                     </v-btn>
                     <!-- 이부분 deleteUser X -> 삭제페이지로 가도록 고치기 -->
                     <v-btn variant="outlined" @click=deleteUser(user.userId) v-if="user.userStatus === true">
-                        삭제
+                        비활성화
                     </v-btn>
                     <v-btn variant="outlined" @click=returnUser(user.userId) v-if="user.userStatus === false">
-                        재등록
+                        활성화
                     </v-btn>
                 </v-card-actions>
             </div>
@@ -51,7 +51,7 @@
         <v-dialog v-model="deleteDialog.isOpen.value" width="auto">
             <v-card>
                 <v-card-text>
-                    상품이 삭제되었습니다!
+                    해당 고객이 비활성화 되었습니다!
                 </v-card-text>
                 <v-card-actions>
                     <v-btn color="primary" block @click="deleteDialog.closeDialog">확인</v-btn>
@@ -64,7 +64,7 @@
         <v-dialog v-model="returnDialog.isOpen.value" width="auto">
             <v-card>
                 <v-card-text>
-                    상품이 재등록되었습니다!
+                    해당 고객이 활성화 되었습니다!
                 </v-card-text>
                 <v-card-actions>
                     <v-btn color="primary" block @click="returnDialog.closeDialog">확인</v-btn>
@@ -129,7 +129,7 @@ const returnDialog = {
     },
     closeDialog() {
         returnDialog.isOpen.value = false; // 다이얼로그 닫기
-        router.push({ name: 'product_management' }); // '상품관리' 경로로 이동
+        router.push({ name: 'user_management' }); // '상품관리' 경로로 이동
     }
 };
 
@@ -154,10 +154,16 @@ const deleteUser = async (userId) => {
             console.log(response.data);
             deleteDialog.openDialog();
             console.log("모달창띄웟다");
+
+            // 사용자 삭제 후 listData에서도 해당 사용자 삭제
+            const userIndex = listData.value.findIndex(user => user.userId === userId);
+            if (userIndex !== -1) {
+                listData.value.splice(userIndex, 1);
+            }
+
             // 수정이 완료되었을 때 다시 상품관리 경로로 이동
             router.push({ name: 'user_management' });
             console.log("페이지 이동 성공!")
-
         }
 
 
@@ -180,6 +186,13 @@ const returnUser = async (userId) => {
             console.log(response.data);
             returnDialog.openDialog();
             console.log("모달창띄웟다");
+
+            // 사용자 복구 후 listData에서도 해당 사용자 삭제
+            const userIndex = listData.value.findIndex(user => user.userId === userId);
+            if (userIndex !== -1) {
+                listData.value.splice(userIndex, 1);
+            }
+
             // 수정이 완료되었을 때 다시 상품관리 경로로 이동
             router.push({ name: 'user_management' });
             console.log("페이지 이동 성공!")

@@ -195,7 +195,14 @@ const deleteProduct = async (productId) => {
         console.log(response.data);
         deleteDialog.openDialog();
         console.log("모달창띄웟다");
-        // 수정이 완료되었을 때 다시 상품관리 경로로 이동
+
+        // 상품 삭제 후 listData에서도 해당 상품 삭제
+        const productIndex = listData.value.findIndex(product => product.productId === productId);
+        if (productIndex !== -1) {
+            listData.value.splice(productIndex, 1);
+        }
+
+        // 삭제가 완료되었을 때 다시 상품관리 경로로 이동
         router.push({ name: 'product_management' });
         console.log("페이지 이동 성공!")
     } catch (error) {
@@ -216,7 +223,13 @@ const returnProduct = async (productId) => {
             // productName.value = values.productName;
             returnDialog.openDialog();
             console.log("모달창띄웟다");
-            // 수정이 완료되었을 때 다시 상품관리 경로로 이동
+
+            // 상품 재등록 후 listData에서 해당 상품 삭제
+            const productIndex = listData.value.findIndex(product => product.productId === productId);
+            if (productIndex !== -1) {
+                listData.value.splice(productIndex, 1);
+            }
+            // 재등록이 완료되었을 때 다시 상품관리 경로로 이동
             router.push({ name: 'product_management' });
             console.log("페이지 이동 성공!")
         }
