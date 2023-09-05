@@ -13,8 +13,7 @@
                 </v-btn>
             </v-bottom-navigation>
         </v-layout>
-        <v-divider :thickness="3" color="info" style="width:60%;     border-style: double;
-    margin: auto;"></v-divider>
+
     </div>
 
 
@@ -58,13 +57,12 @@
 
     <div class="addproduct">
         <v-btn variant="outlined" @click="addProduct">
-            추가
+            상품 추가
         </v-btn>
     </div>
 
 
     <div class="text-center">
-
         <v-dialog v-model="deleteDialog.isOpen.value" width="auto">
             <v-card>
                 <v-card-text>
@@ -79,7 +77,6 @@
 
 
     <div class="text-center">
-
         <v-dialog v-model="returnDialog.isOpen.value" width="auto">
             <v-card>
                 <v-card-text>
@@ -150,10 +147,6 @@ const doneService = () => {
         // 필터링된 데이터를 listData에 할당
         listData.value = filteredData;
 
-        // 만약 데이터가 없다면 메시지를 표시
-        if (filteredData.length === 0) {
-            showNoDataMessage.value = true;
-        }
         console.log(listData);
     });
 }

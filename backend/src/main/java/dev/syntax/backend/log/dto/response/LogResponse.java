@@ -10,13 +10,15 @@ import java.time.LocalDateTime;
 
 @Getter
 public class LogResponse {
+    private final long logId;
     private final long userId;
     private final  LogType logType;
     private final LocalDateTime logTime;
     private final String logDesc;
 
     @Builder
-    public LogResponse(long userId, LogType logType, LocalDateTime logTime, String logDesc) {
+    public LogResponse(long logId, long userId, LogType logType, LocalDateTime logTime, String logDesc) {
+        this.logId = logId;
         this.userId = userId;
         this.logType = logType;
         this.logTime = logTime;
@@ -25,6 +27,7 @@ public class LogResponse {
 
     public static LogResponse from(Log log){
         return LogResponse.builder()
+                .logId(log.getLogId())
                 .userId(log.getUser().getUserId())
                 .logType(log.getLogType())
                 .logTime(log.getLogTime())

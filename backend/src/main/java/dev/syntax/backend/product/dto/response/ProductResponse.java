@@ -37,8 +37,6 @@ public class ProductResponse {
     private boolean productStatus;
 
 
-
-
     public static ProductResponse from(Product product)  {
         return ProductResponse.builder()
                 .productId(product.getProductId())

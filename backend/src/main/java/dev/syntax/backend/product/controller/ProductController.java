@@ -61,6 +61,7 @@ public class ProductController {
         Product updatedProduct = productService.save(editProduct);
         System.out.println("수정되었습니다.");
         System.out.println(updatedProduct.getUserAgeGroup());
+
         return ProductResponse.from(updatedProduct);
     }
 
@@ -94,7 +95,6 @@ public class ProductController {
         }
         return ProductResponse.from(findProduct);
     }
-
 
     //상품 추가
     @PostMapping("/add")

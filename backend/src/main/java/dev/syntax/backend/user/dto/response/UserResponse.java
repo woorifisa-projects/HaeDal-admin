@@ -24,8 +24,10 @@ public class UserResponse {
     private Long asset;
     private int authNumber;
 
+    private boolean userStatus;
+
     @Builder
-    public UserResponse(Long userId, String id, String password, String name, String phoneNumber, ServicePurpose servicePurpose, UserAgeGroup userAgeGroup, String accountNumber, Long asset, int authNumber) {
+    public UserResponse(Long userId, String id, String password, String name, String phoneNumber, ServicePurpose servicePurpose, UserAgeGroup userAgeGroup, String accountNumber, Long asset, int authNumber, boolean userStatus) {
         this.userId = userId;
         this.id = id;
         this.password = password;
@@ -36,6 +38,7 @@ public class UserResponse {
         this.accountNumber = accountNumber;
         this.asset = asset;
         this.authNumber = authNumber;
+        this.userStatus = userStatus;
     }
 
     public static UserResponse from(User user)  {
@@ -50,6 +53,7 @@ public class UserResponse {
                 .accountNumber(user.getAccountNumber())
                 .asset(user.getAsset())
                 .authNumber(user.getAuthNumber())
+                .userStatus(user.getUserStatus())
                 .build();
     }
 }
