@@ -1,91 +1,92 @@
 <template>
     <!-- 로그인 후, or '상품관리 탭'클릭 시 기본으로 보여줄 페이지 -->
+    <div class="container">
+        <div>
+            <v-layout class="overflow-visible" style="height: 56px; box-shadow: none; margin-bottom:30px;">
+                <v-bottom-navigation v-model="value" color="blue" grow>
+                    <v-btn @click="inProgressService">
+                        현재 서비스 상품
+                    </v-btn>
 
-    <div>
-        <v-layout class="overflow-visible" style="height: 56px; box-shadow: none; margin-bottom:30px;">
-            <v-bottom-navigation v-model="value" color="teal" grow>
-                <v-btn @click="inProgressService">
-                    현재 서비스 상품
-                </v-btn>
+                    <v-btn @click="doneService">
+                        서비스 만료 상품
+                    </v-btn>
+                </v-bottom-navigation>
+            </v-layout>
 
-                <v-btn @click="doneService">
-                    서비스 만료 상품
-                </v-btn>
-            </v-bottom-navigation>
-        </v-layout>
-
-    </div>
-    <div class="addproduct">
-        <v-btn variant="outlined" @click="addProduct">
-            상품 추가
-        </v-btn>
-    </div>
+        </div>
+        <div class="addproduct">
+            <v-btn @click="addProduct">
+                상품 추가
+            </v-btn>
+        </div>
 
 
-    <div id="products" v-bind:class="item.productName" v-for="(item, index) in listData" :key="index">
-        <v-card class="mx-auto" max-width="70%">
-            <v-card-item class="products">
-                <div>
-                    <div class="text-h6 mb-1">
-                        {{ item.productName }}
+        <div id="products" v-bind:class="item.productName" v-for="(item, index) in listData" :key="index">
+            <v-card class="mx-auto" max-width="60%">
+                <v-card-item class="products">
+                    <div>
+                        <div class="text-h6 mb-4" style="font-weight: bolder;">
+                            {{ item.productName }}
+                        </div>
+                        <div class="text-overline mb-1">
+                            <span>
+                                <b>상품 기간</b> {{ item.period }}개월
+                                <b>금리</b> {{ item.interestRate }}%
+                                <b>최소 가입 금액</b> {{ item.requiredStartMoney }}원
+                            </span>
+                        </div>
+                        <div class="text-caption">{{ item.longInfo }}</div>
                     </div>
-                    <div class="text-overline mb-1">
-                        <span>
-                            상품 기간 : {{ item.period }}개월
-                            금리 : {{ item.interestRate }}%
-                            최소 가입 금액 : {{ item.requiredStartMoney }}원
-                        </span>
-                    </div>
-                    <div class="text-caption">{{ item.longInfo }}</div>
+                </v-card-item>
+                <div class="d-flex justify-end align-center">
+                    <v-card-actions>
+                        <!-- 이부분 subscribeProduct X -> 수정페이지로 가도록 고치기  -->
+                        <v-btn @click="editProduct(item.productId)">
+
+                            수정
+                        </v-btn>
+                        <!-- 이부분 subscribeProduct X -> 삭제 -->
+                        <v-btn @click="deleteProduct(item.productId)" v-if="item.productStatus === true">
+                            삭제
+                        </v-btn>
+                        <v-btn @click="returnProduct(item.productId)" v-if="item.productStatus === false">
+                            재등록
+                        </v-btn>
+
+                    </v-card-actions>
                 </div>
-            </v-card-item>
-            <div class="d-flex justify-end align-center">
-                <v-card-actions>
-                    <!-- 이부분 subscribeProduct X -> 수정페이지로 가도록 고치기  -->
-                    <v-btn variant="outlined" @click="editProduct(item.productId)">
-                        <!-- href="http://localhost8080/admin/product/edit" -->
-                        수정
-                    </v-btn>
-                    <!-- 이부분 subscribeProduct X -> 삭제 -->
-                    <v-btn variant="outlined" @click="deleteProduct(item.productId)" v-if="item.productStatus === true">
-                        삭제
-                    </v-btn>
-                    <v-btn variant="outlined" @click="returnProduct(item.productId)" v-if="item.productStatus === false">
-                        재등록
-                    </v-btn>
-
-                </v-card-actions>
-            </div>
-        </v-card>
-    </div>
-
-
-
-    <div class="text-center">
-        <v-dialog v-model="deleteDialog.isOpen.value" width="auto">
-            <v-card>
-                <v-card-text>
-                    상품이 삭제되었습니다!
-                </v-card-text>
-                <v-card-actions>
-                    <v-btn color="primary" block @click="deleteDialog.closeDialog">확인</v-btn>
-                </v-card-actions>
             </v-card>
-        </v-dialog>
-    </div>
+        </div>
 
 
-    <div class="text-center">
-        <v-dialog v-model="returnDialog.isOpen.value" width="auto">
-            <v-card>
-                <v-card-text>
-                    상품이 재등록되었습니다!
-                </v-card-text>
-                <v-card-actions>
-                    <v-btn color="primary" block @click="returnDialog.closeDialog">확인</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+
+        <div class="text-center">
+            <v-dialog v-model="deleteDialog.isOpen.value" width="auto">
+                <v-card>
+                    <v-card-text>
+                        상품이 삭제되었습니다!
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn color="primary" block @click="deleteDialog.closeDialog">확인</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </div>
+
+
+        <div class="text-center">
+            <v-dialog v-model="returnDialog.isOpen.value" width="auto">
+                <v-card>
+                    <v-card-text>
+                        상품이 재등록되었습니다!
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn color="primary" block @click="returnDialog.closeDialog">확인</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </div>
     </div>
 </template>
 
@@ -250,6 +251,12 @@ const addProduct = () => {
 .mx-auto {
     text-align: center;
     justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: inset 2px 2px 20px rgb(229, 244, 255);
+    border-radius: 20px;
+    padding: 20px;
+    min-width: 500px;
+    border: 1px solid rgb(4, 171, 255);
 }
 
 .mx-auto button {
@@ -257,15 +264,59 @@ const addProduct = () => {
 }
 
 .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: repeat(3, minmax(100px, auto));
-    grid-gap: 20px;
-    margin: 10px 20rem 10rem 20rem;
+    margin-bottom: 90px;
 }
 
 .addproduct {
-    margin-top: 40px;
-    margin-left: 80%;
+    margin: 20px 0px 20px 73%;
+}
+
+.addproduct .v-btn {
+    background-color: rgb(4, 171, 255);
+    box-shadow: 4px 1px 10px rgba(161, 216, 255, 0.61);
+
+    border-radius: 15px !important;
+    font-weight: bold;
+    color: white;
+}
+
+.mx-auto button {
+    margin: auto;
+    background-color: rgb(229, 244, 255);
+    box-shadow: inset 1px 1px 10px rgba(161, 216, 255, 0.236);
+    border-radius: 20px;
+    width: 100px;
+}
+
+.products {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.products b {
+    background-color: rgb(4, 171, 255);
+    padding: 4px;
+    border-radius: 10px;
+    color: white;
+}
+
+.v-card-actions {
+    margin: auto;
+    margin-top: 5px;
+}
+
+.v-bottom-navigation {
+    background: none;
+    color: rgb(0, 149, 255);
+    box-shadow: none;
+}
+
+.v-bottom-navigation button {
+    background: rgba(255, 255, 255, 0.264);
+    border-bottom: 2px solid rgb(0, 149, 255);
+    margin-left: 16px;
+    border-radius: 0px !important;
+    height: 2px;
 }
 </style>

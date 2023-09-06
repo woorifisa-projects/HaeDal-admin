@@ -1,77 +1,79 @@
 <template>
-    <div>
-        <v-layout class="overflow-visible" style="height: 56px; box-shadow: none; margin-bottom:30px;">
-            <v-bottom-navigation v-model="value" color="teal" grow>
-                <v-btn @click="inProgressService">
-                    활성화 고객
-                </v-btn>
+    <div class="container">
+        <div>
+            <v-layout class="overflow-visible" style="height: 56px; box-shadow: none; margin-bottom:30px;">
+                <v-bottom-navigation v-model="value" color="blue" grow>
+                    <v-btn @click="inProgressService">
+                        활성화 고객
+                    </v-btn>
 
-                <v-btn @click="doneService">
-                    비활성화 고객
-                </v-btn>
-            </v-bottom-navigation>
-        </v-layout>
+                    <v-btn @click="doneService">
+                        비활성화 고객
+                    </v-btn>
+                </v-bottom-navigation>
+            </v-layout>
 
-    </div>
+        </div>
 
-    <div id="users" v-bind:class="user.id" v-for="(user, index) in listData" :key="index">
-        <v-card class="mx-auto" max-width="70%">
-            <v-card-item class="users">
-                <div>
-                    <div class="text-h6 mb-1">
-                        {{ user.id }}
+        <div id="users" v-bind:class="user.id" v-for="(user, index) in listData" :key="index">
+            <v-card class="mx-auto" max-width="60%">
+                <v-card-item class="users">
+                    <div>
+                        <div class="text-h6 mb-4" style="font-weight: bolder;">
+                            고객 아이디 : {{ user.id }}
+                        </div>
+                        <div class="text-overline mb-1">
+                            <span>
+                                <b>고객 번호</b> {{ user.userId }}
+                                <b>고객 이름</b> {{ user.name }}
+                                <b>고객 전화번호</b> {{ user.phoneNumber }}
+                            </span>
+                        </div>
                     </div>
-                    <div class="text-overline mb-1">
-                        <span>
-                            고객 번호 : {{ user.userId }}
-                            고객 이름 : {{ user.name }}
-                            고객 전화번호 : {{ user.phoneNumber }}
-                        </span>
-                    </div>
+                </v-card-item>
+                <div class="d-flex justify-end align-center">
+                    <v-card-actions>
+                        <!-- 이부분 subscribeUser X -> 수정페이지로 가도록 고치기  -->
+                        <v-btn @click=editUser(user.userId)>
+                            수정
+                        </v-btn>
+                        <!-- 이부분 deleteUser X -> 삭제페이지로 가도록 고치기 -->
+                        <v-btn @click=deleteUser(user.userId) v-if="user.userStatus === true">
+                            비활성화
+                        </v-btn>
+                        <v-btn @click=returnUser(user.userId) v-if="user.userStatus === false">
+                            활성화
+                        </v-btn>
+                    </v-card-actions>
                 </div>
-            </v-card-item>
-            <div class="d-flex justify-end align-center">
-                <v-card-actions>
-                    <!-- 이부분 subscribeUser X -> 수정페이지로 가도록 고치기  -->
-                    <v-btn variant="outlined" @click=editUser(user.userId)>
-                        수정
-                    </v-btn>
-                    <!-- 이부분 deleteUser X -> 삭제페이지로 가도록 고치기 -->
-                    <v-btn variant="outlined" @click=deleteUser(user.userId) v-if="user.userStatus === true">
-                        비활성화
-                    </v-btn>
-                    <v-btn variant="outlined" @click=returnUser(user.userId) v-if="user.userStatus === false">
-                        활성화
-                    </v-btn>
-                </v-card-actions>
-            </div>
-        </v-card>
-    </div>
-
-    <div class="text-center">
-        <v-dialog v-model="deleteDialog.isOpen.value" width="auto">
-            <v-card>
-                <v-card-text>
-                    해당 고객이 비활성화 되었습니다!
-                </v-card-text>
-                <v-card-actions>
-                    <v-btn color="primary" block @click="deleteDialog.closeDialog">확인</v-btn>
-                </v-card-actions>
             </v-card>
-        </v-dialog>
-    </div>
+        </div>
 
-    <div class="text-center">
-        <v-dialog v-model="returnDialog.isOpen.value" width="auto">
-            <v-card>
-                <v-card-text>
-                    해당 고객이 활성화 되었습니다!
-                </v-card-text>
-                <v-card-actions>
-                    <v-btn color="primary" block @click="returnDialog.closeDialog">확인</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+        <div class="text-center">
+            <v-dialog v-model="deleteDialog.isOpen.value" width="auto">
+                <v-card>
+                    <v-card-text>
+                        해당 고객이 비활성화 되었습니다!
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn color="primary" block @click="deleteDialog.closeDialog">확인</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </div>
+
+        <div class="text-center">
+            <v-dialog v-model="returnDialog.isOpen.value" width="auto">
+                <v-card>
+                    <v-card-text>
+                        해당 고객이 활성화 되었습니다!
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn color="primary" block @click="returnDialog.closeDialog">확인</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </div>
     </div>
 </template>
 
@@ -245,17 +247,63 @@ const doneService = () => {
 .mx-auto {
     text-align: center;
     justify-content: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    height: 220px;
+    padding: 30px;
+    margin: 20px;
+    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    box-shadow: inset 5px 5px 20px rgb(229, 244, 255);
+    min-width: 600px;
+    border: 1px solid rgb(4, 171, 255);
+}
+
+.container {
+    margin-bottom: 90px;
 }
 
 .mx-auto button {
     margin: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    background-color: rgb(229, 244, 255);
+    box-shadow: inset 1px 1px 10px rgba(161, 216, 255, 0.236);
+    border-radius: 20px;
+    width: 100px;
 }
 
-.container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: repeat(3, minmax(100px, auto));
-    grid-gap: 20px;
-    margin: 10px 20rem 10rem 20rem;
+.users {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.users b {
+    background-color: rgb(4, 171, 255);
+    padding: 4px;
+    border-radius: 10px;
+    color: white;
+}
+
+.v-card-actions {
+    margin: auto;
+    margin-top: 5px;
+}
+
+.v-bottom-navigation {
+    background: none;
+    color: rgb(0, 149, 255);
+    box-shadow: none;
+}
+
+.v-bottom-navigation button {
+    background: rgba(255, 255, 255, 0.264);
+    border-bottom: 2px solid rgb(0, 149, 255);
+    margin-left: 16px;
+    border-radius: 0px !important;
+    height: 2px;
 }
 </style>
