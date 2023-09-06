@@ -1,6 +1,7 @@
 package dev.syntax.backend.user.controller;
 
 import dev.syntax.backend.product.dto.response.ProductResponse;
+import dev.syntax.backend.product.model.Product;
 import dev.syntax.backend.user.dto.response.UserResponse;
 import dev.syntax.backend.user.model.User;
 import dev.syntax.backend.admin.service.AdminService;
@@ -46,10 +47,31 @@ public class UserController {
     }
 
     //특정 고객 정보 삭제
-    @DeleteMapping("/{userId}/delete")
-    public void deleteUser(@PathVariable("userId") Long userId){
+    // status false로 변경하여 보이지 않도록 수정
+    @PostMapping("/{userId}/delete")
+    public UserResponse deleteUser(@PathVariable("userId") Long userId) {
         User user = userService.findById(userId);
-        userService.delete(user);
+        if (user.getUserStatus() == true) {
+            if (user != null) {
+                user.setUserStatus(false);
+                User updatedUser = userService.saveUser(user);
+                return UserResponse.from(updatedUser);
+            }
+        }
         System.out.println("삭제되었습니다");
+        return UserResponse.from(user);
+    }
+    @PostMapping("/{userId}/return")
+    public UserResponse returnUser(@PathVariable("userId") Long userId) {
+        User user = userService.findById(userId);
+        if (user.getUserStatus() == false) {
+            if (user != null) {
+                user.setUserStatus(true);
+                User updatedUser = userService.saveUser(user);
+                return UserResponse.from(updatedUser);
+            }
+        }
+        System.out.println("삭제되었습니다");
+        return UserResponse.from(user);
     }
 }

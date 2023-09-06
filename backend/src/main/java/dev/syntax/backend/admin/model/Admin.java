@@ -17,7 +17,4 @@ public class Admin {
 
     @Column(name = "admin_password")
     Long password;
-
-    @Column
-    String log;
 }

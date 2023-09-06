@@ -11,8 +11,8 @@ import java.util.List;
 @Entity
 @Table
 @NoArgsConstructor
-@Getter
 @Setter
+@Getter
 //사용자 테이블
 public class User {
     @Id
@@ -48,6 +48,15 @@ public class User {
     @Column(name = "auth_number")
     private int authNumber; // 인증번호
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Subscribe> subscribes;
+
+    //활동 가능 고객인지 여부
+    @Column(name = "user_status", columnDefinition = "BOOLEAN DEFAULT true")
+    private boolean userStatus;
+
+
+    public boolean getUserStatus(){
+        return this.userStatus;
+    }
 }
