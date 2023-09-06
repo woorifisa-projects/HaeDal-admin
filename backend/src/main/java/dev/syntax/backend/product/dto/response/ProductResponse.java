@@ -51,7 +51,7 @@ public class ProductResponse {
                 .tag(product.getTag())
                 .productName(product.getProductName())
                 .shortInfo(product.getShortInfo())
-                .productStatus(product.getProductStatus())
+                .productStatus(product.isProductStatus())
                 .build();
     }
 }

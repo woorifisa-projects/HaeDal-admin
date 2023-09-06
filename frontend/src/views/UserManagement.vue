@@ -23,6 +23,7 @@
                     </div>
                     <div class="text-overline mb-1">
                         <span>
+                            고객 번호 : {{ user.userId }}
                             고객 이름 : {{ user.name }}
                             고객 전화번호 : {{ user.phoneNumber }}
                         </span>

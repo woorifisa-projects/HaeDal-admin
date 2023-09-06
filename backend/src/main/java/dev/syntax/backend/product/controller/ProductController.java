@@ -70,9 +70,9 @@ public class ProductController {
     @PostMapping("/{productId}/delete")
     public ProductResponse deleteProduct(@PathVariable("productId") Long productId) {
         Product findProduct = productService.findById(productId);
-        if (findProduct.getProductStatus() == true) {
+        if (findProduct.isProductStatus() == true) {
             if (findProduct != null) {
-                findProduct.setProductStatus(false); // 상품의 productStatus를 0(false)으로 업데이트
+                findProduct.updateProductStatus(false); // 상품의 productStatus를 0(false)으로 업데이트
                 Product updatedStatusProduct = productService.save(findProduct); // 업데이트된 정보 저장
                 return ProductResponse.from(updatedStatusProduct);
             }
@@ -86,9 +86,9 @@ public class ProductController {
     @PostMapping("/{productId}/return")
     public ProductResponse returnProduct(@PathVariable("productId") Long productId) {
         Product findProduct = productService.findById(productId);
-        if (findProduct.getProductStatus() == false) {
+        if (findProduct.isProductStatus() == false) {
             if (findProduct != null) {
-                findProduct.setProductStatus(true); // 상품의 productStatus를 1(true)으로 업데이트
+                findProduct.updateProductStatus(true); // 상품의 productStatus를 1(true)으로 업데이트
                 Product updatedStatusProduct = productService.save(findProduct); // 업데이트된 정보 저장
                 return ProductResponse.from(updatedStatusProduct);
             }
@@ -99,6 +99,7 @@ public class ProductController {
     //상품 추가
     @PostMapping("/add")
     public ProductResponse addProduct(@RequestBody Product enterProduct ) {
+        enterProduct.updateProductStatus(true);
         Product savedProduct = productService.save(enterProduct);
         return ProductResponse.from(savedProduct);
     }

@@ -53,7 +53,7 @@ public class UserResponse {
                 .accountNumber(user.getAccountNumber())
                 .asset(user.getAsset())
                 .authNumber(user.getAuthNumber())
-                .userStatus(user.getUserStatus())
+                .userStatus(user.isUserStatus())
                 .build();
     }
 }

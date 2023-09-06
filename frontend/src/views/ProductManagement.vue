@@ -15,7 +15,11 @@
         </v-layout>
 
     </div>
-
+    <div class="addproduct">
+        <v-btn variant="outlined" @click="addProduct">
+            상품 추가
+        </v-btn>
+    </div>
 
 
     <div id="products" v-bind:class="item.productName" v-for="(item, index) in listData" :key="index">
@@ -55,11 +59,6 @@
         </v-card>
     </div>
 
-    <div class="addproduct">
-        <v-btn variant="outlined" @click="addProduct">
-            상품 추가
-        </v-btn>
-    </div>
 
 
     <div class="text-center">
