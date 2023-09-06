@@ -40,6 +40,4 @@ const headers = [
 ];
 </script>
   
-<style lang="scss" scoped>
-/* 스타일을 추가할 수 있음 */
-</style>
+<style lang="scss" scoped></style>
