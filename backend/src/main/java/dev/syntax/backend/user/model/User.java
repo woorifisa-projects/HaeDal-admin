@@ -55,8 +55,8 @@ public class User {
     @Column(name = "user_status", columnDefinition = "BOOLEAN DEFAULT true")
     private boolean userStatus;
 
-
-    public boolean getUserStatus(){
-        return this.userStatus;
+    public void updateUserStatus(boolean userStatus) {
+        this.userStatus = userStatus;
     }
+
 }

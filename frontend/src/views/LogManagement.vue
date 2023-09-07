@@ -1,6 +1,8 @@
 <template>
-    <v-data-table :headers="headers" :items="listData" v-model:items-per-page="itemsPerPage" class="elevation-1">
-    </v-data-table>
+    <div class="container">
+        <v-data-table :headers="headers" :items="listData" v-model:items-per-page="itemsPerPage" class="elevation-1 center">
+        </v-data-table>
+    </div>
 </template>
   
 <script setup>
@@ -40,4 +42,13 @@ const headers = [
 ];
 </script>
   
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container {
+    justify-content: center;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    width: 70%;
+    min-width: 900px;
+}
+</style>

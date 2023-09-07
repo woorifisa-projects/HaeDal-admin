@@ -1,5 +1,6 @@
 package dev.syntax.backend.log.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.syntax.backend.user.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class Log {
     @Enumerated(EnumType.STRING)
     @Column(name="log_type")
     private LogType logType;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     @Column(name="log_time")
     private LocalDateTime logTime;
     @Column(name="log_desc")

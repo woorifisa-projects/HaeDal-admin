@@ -2,6 +2,7 @@ package dev.syntax.backend.subscribe.service;
 
 import dev.syntax.backend.subscribe.model.Subscribe;
 import dev.syntax.backend.subscribe.repository.SubscribeRepository;
+import dev.syntax.backend.user.model.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +21,11 @@ public class SubscribeServiceImp implements SubscribeService{
 
     public Subscribe save(Subscribe subscribe){
         return subscribeRepository.save(subscribe);
+    }
+
+    @Override
+    public void deleteByUser(User user) {
+            subscribeRepository.deleteByUser(user);
     }
 
 

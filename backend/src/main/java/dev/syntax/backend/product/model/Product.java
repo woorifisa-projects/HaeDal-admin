@@ -60,7 +60,7 @@ public class Product {
     @Column(name="product_status", columnDefinition = "BOOLEAN DEFAULT true")
     private boolean productStatus;
 
-    public boolean getProductStatus() {
-        return this.productStatus;
+    public void updateProductStatus(boolean productStatus) {
+        this.productStatus = productStatus;
     }
 }
