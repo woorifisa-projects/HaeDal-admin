@@ -15,52 +15,67 @@ import { createRouter, createWebHistory } from 'vue-router'
 //         component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
 //       },
 
+// const routes = [
+//   {
+//     path: '/',
+//     component: () => import('@/layouts/default/Default.vue'),
+//     redirect: '/admin/login', // '/' 경로로 접속 시 '/admin/login' 경로로 리다이렉트
+//     path: '/admin/login',
+//     name: 'admin_login_view',
+//     component: () => import('@/views/AdminLoginView.vue'),
+//     },
+  
 const routes = [
+    {
+    path: '/',
+    name: 'admin_login_view', // 이름 지정 (선택사항)
+    component: () => import('@/views/AdminLoginView.vue'), // 컴포넌트 경로 지정
+    },
   {
-        path: '/',
-        component: () => import('@/layouts/default/Default.vue'),
-        children: [
-      // 상품관련
+    path: '/admin',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+   
       {
-        path: '/admin/product',
+        path: 'product',
         name: 'product_management',
         component: () => import('@/views/ProductManagement.vue'),
         props: true
       },
       {
-        path: '/admin/product/:productId/edit', // 동적 세그먼트 :product_id 사용,
+        path: 'product/:productId/edit', // 동적 세그먼트 :product_id 사용,
         name: 'edit_product',
         component: () => import('@/views/EditProduct.vue'),
         props: true
       },
 
       {
-        path: '/admin/product/:productId/edit/save', // 동적 세그먼트 :product_id 사용,
+        path: 'product/:productId/edit/save', // 동적 세그먼트 :product_id 사용,
         name: 'save_edited_product',
         component: () => import('@/views/EditProduct.vue'),
         props: true
       },
 
       {
-        path: '/admin/product/add',
+        path: 'product/add',
         name: 'add_product',
         component: () => import('@/views/AddProduct.vue'),
         props: true
       },
       {
-        path: '/admin/product/delete',
+        path: 'product/delete',
         name: 'delete_product',
         component: () => import('@/views/ProductManagement.vue'),
         props: true
       },
       {
-        path: '/admin/product/:productId/return',
+        path: 'product/:productId/return',
         name: 'return_product',
         component: () => import('@/views/ProductManagement.vue'),
         props: true
       },
       {
-        path: '/admin/product/add/save',
+        path: 'product/add/save',
         name: 'save_add_product',
         component: () => import('@/views/AddProduct.vue'),
         props: true
@@ -72,21 +87,21 @@ const routes = [
 
       // user 관련
       {
-        path: '/admin/user',
+        path: 'user',
         name: 'user_management',
         component: () => import('@/views/UserManagement.vue'),
         props: true
       },
 
       {
-        path: '/admin/user/:userId/edit',
+        path: 'user/:userId/edit',
         name: 'edit_user',
         component: () => import('@/views/EditUser.vue'),
         props: true
       },
 
       {
-        path: '/admin/user/:userId/delete',
+        path: 'user/:userId/delete',
         name: 'delete_user',
         component: () => import('@/views/UserManagement.vue'),
         props: true
@@ -96,20 +111,13 @@ const routes = [
 
       //log 페이지
       {
-        path: '/admin/log',
+        path: 'log',
         name: 'log',
         component: () => import('@/views/LogManagement.vue'),
       },
-    ]},{
-      path: '/',
-      redirect: '/admin/login', // '/' 경로로 접속 시 '/admin/login' 경로로 리다이렉트
-      },
-      {
-        path: '/admin/login',
-        name: 'admin_login_view',
-        component: () => import('@/views/AdminLoginView.vue'),
-        }, 
-]
+    ],   
+  },  
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
