@@ -15,14 +15,6 @@ const routes = [
         component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       },
 
-      {
-        path: "header",
-        name: "Header",
-        component: () => import(/* webpackChunkName: "home" */ '@/views/Header.vue'),
-      },
-
-
-
       // 상품관련
       {
         path: '/admin/product',
