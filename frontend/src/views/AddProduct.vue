@@ -328,7 +328,7 @@ import { useRouter } from 'vue-router';
   
       console.log(dataToSend);
      
-      axios.post('http://localhost:8080/admin/product/add', dataToSend)
+      axios.post('http://13.124.156.71/admin/product/add', dataToSend)
       .then(response => {
         // POST 요청 성공 시 로직
         console.log(response.data);

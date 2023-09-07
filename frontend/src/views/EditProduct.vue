@@ -347,7 +347,7 @@ const submit = handleSubmit(values => {
 
   console.log(dataToSend);
 
-  axios.post(`http://localhost:8080/admin/product/${productId}/edit/save`, dataToSend, {
+  axios.post(`http://13.124.156.71/admin/product/${productId}/edit/save`, dataToSend, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -374,7 +374,7 @@ const submit = handleSubmit(values => {
 onMounted(() => {
   const productId = props.productId; // props로 받아온 product_id 사용
 
-  axios.get(`http://localhost:8080/admin/product/${productId}/edit`)
+  axios.get(`http://13.124.156.71/admin/product/${productId}/edit`)
     .then(response => {
       console.log(response.data);
       productName.value.value = response.data.name

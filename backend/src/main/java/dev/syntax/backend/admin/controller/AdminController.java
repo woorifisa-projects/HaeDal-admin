@@ -13,6 +13,7 @@ import java.util.List;
 
 // 관리자 페이지의 메인 페이지 = 상품 관리 페이지
 @CrossOrigin(origins = {"http://localhost:3000, http://3.35.119.36"})
+// 경로 변경
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
