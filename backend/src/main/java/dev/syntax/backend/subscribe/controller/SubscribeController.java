@@ -12,7 +12,7 @@ import java.util.Map;
 
 @RequestMapping("/subscribe")
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000, http://3.35.119.36"})
 public class SubscribeController {
     private SubscribeService subscribeService;
     private UserService userService;
