@@ -104,7 +104,7 @@ const listData = ref([]);
 
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8080/admin', // 후에 관리자 서버만들어서 주소넣기
+    baseURL: 'http://13.124.156.71/admin', // 후에 관리자 서버만들어서 주소넣기
 
 })
 

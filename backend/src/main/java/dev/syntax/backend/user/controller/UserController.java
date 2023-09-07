@@ -11,7 +11,12 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:3000")
+
+//@CrossOrigin(origins = "http://localhost:3000")
+
+@CrossOrigin(origins = {"http://localhost:3000, http://3.35.119.36"})
+//@CrossOrigin(origins = "http://localhost:3000")
+
 @RestController
 @RequestMapping("/admin/user")
 public class UserController {
