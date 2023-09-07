@@ -132,7 +132,7 @@ const returnDialog = {
     },
     closeDialog() {
         returnDialog.isOpen.value = false; // 다이얼로그 닫기
-        router.push({ name: 'user_management' }); // '상품관리' 경로로 이동
+        router.push({ name: 'user_management' }); // '고객관리' 경로로 이동
     }
 };
 
