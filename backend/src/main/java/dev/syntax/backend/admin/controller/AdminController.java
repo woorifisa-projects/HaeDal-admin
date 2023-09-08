@@ -15,7 +15,7 @@ import java.util.List;
 
 //@CrossOrigin(origins = "http://localhost:3000")
 
-@CrossOrigin(origins = {"http://localhost:3000, http://3.35.119.36"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://3.35.119.36"})
 //@CrossOrigin(origins = "http://localhost:3000")
 
 @RestController

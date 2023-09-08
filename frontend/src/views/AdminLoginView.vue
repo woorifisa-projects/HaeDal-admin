@@ -50,7 +50,7 @@ const loading = ref(false);
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    const url = "http://13.124.156.71/admin/login";
+    const url = "http://13.124.156.71:8080/admin/login";
 
     console.log('password의 타입은? ' + typeof (values.password));
 
