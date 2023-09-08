@@ -93,7 +93,7 @@ const listData = ref([]);
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
     // baseURL: 'http://localhost:8080', // 서버의 주소
-    baseURL: 'http://13.124.156.71/admin', // 후에 관리자 서버만들어서 주소넣기
+    baseURL: 'http://13.124.156.71:8080/admin', // 후에 관리자 서버만들어서 주소넣기
 
 })
 
@@ -147,7 +147,7 @@ const editUser = (userId) => {
 
 // 유저 삭제 버튼
 const deleteUser = async (userId) => {
-    const url = `http://13.124.156.71/admin/user/${userId}/delete`;
+    const url = `http://13.124.156.71:8080/admin/user/${userId}/delete`;
 
     try {
         const response = await axiosInstance.post(url);
@@ -179,7 +179,7 @@ const deleteUser = async (userId) => {
 
 // 재등록 버튼
 const returnUser = async (userId) => {
-    const url = `http://13.124.156.71/admin/user/${userId}/return`;
+    const url = `http://13.124.156.71:8080/admin/user/${userId}/return`;
 
     try {
         const response = await axiosInstance.post(url);

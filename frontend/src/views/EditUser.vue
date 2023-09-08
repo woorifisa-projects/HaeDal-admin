@@ -285,7 +285,7 @@ const submit = handleSubmit(values => {
 
 
 
-  axios.post(`http://13.124.156.71/admin/user/${userId}/edit`, dataToSend, {
+  axios.post(`http://13.124.156.71:8080/admin/user/${userId}/edit`, dataToSend, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -314,7 +314,7 @@ const submit = handleSubmit(values => {
 onMounted(() => {
   const userId = props.userId; // props로 받아온 user_id 사용
 
-  axios.get(`http://13.124.156.71/admin/user/${userId}/edit`)
+  axios.get(`http://13.124.156.71:8080/admin/user/${userId}/edit`)
     .then(response => {
       console.log(response.data);
       id.value.value = response.data.id

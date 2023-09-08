@@ -104,7 +104,7 @@ const listData = ref([]);
 
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
-    baseURL: 'http://l13.124.156.71/admin', // 후에 관리자 서버만들어서 주소넣기
+    baseURL: 'http://l13.124.156.71:8080/admin', // 후에 관리자 서버만들어서 주소넣기
 
 })
 
@@ -188,7 +188,7 @@ const editProduct = (productId) => {
 
 // 삭제하기 버튼
 const deleteProduct = async (productId) => {
-    const url = `http://13.124.156.71/admin/product/${productId}/delete`;
+    const url = `http://13.124.156.71:8080/admin/product/${productId}/delete`;
     try {
         const response = await axiosInstance.post(url);
         // POST 요청 성공 시 로직
@@ -212,7 +212,7 @@ const deleteProduct = async (productId) => {
 
 // 재등록 버튼
 const returnProduct = async (productId) => {
-    const url = `http://13.124.156.71/admin/product/${productId}/return`;
+    const url = `http://13.124.156.71:8080/admin/product/${productId}/return`;
 
     try {
         const response = await axiosInstance.post(url);
