@@ -43,7 +43,6 @@
                     <v-card-actions>
                         <!-- 이부분 subscribeProduct X -> 수정페이지로 가도록 고치기  -->
                         <v-btn @click="editProduct(item.productId)">
-
                             수정
                         </v-btn>
                         <!-- 이부분 subscribeProduct X -> 삭제 -->

@@ -99,16 +99,29 @@ const axiosInstance = axios.create({
 
 
 
+// watchEffect(() => {
+//     axiosInstance.get('user').then((res) => {
+//         let tempArr = [...res.data]
+//         tempArr.forEach((user) => {
+//             console.log(user)
+//             listData.value.push(user)
+//         })
+//         console.log(listData);
+//     })
+// })
+
 watchEffect(() => {
-    axiosInstance.get('user').then((res) => {
-        let tempArr = [...res.data]
-        tempArr.forEach((user) => {
-            console.log(user)
-            listData.value.push(user)
-        })
+    listData.value = [];
+    axiosInstance.get('/user').then((res) => {
+        // 서버로부터 받아온 데이터 중 productStatus가 true인 것만 필터링
+        const filteredData = res.data.filter(user => user.userStatus === true);
+
+        // 필터링된 데이터를 listData에 할당
+        listData.value = filteredData;
         console.log(listData);
     })
 })
+
 
 
 
@@ -148,6 +161,7 @@ const editUser = (userId) => {
 // 유저 삭제 버튼
 const deleteUser = async (userId) => {
     const url = `http://13.124.156.71:8080/admin/user/${userId}/delete`;
+    // const url = `http://localhost:8080/admin/user/${userId}/delete`;
 
     try {
         const response = await axiosInstance.post(url);
@@ -180,6 +194,7 @@ const deleteUser = async (userId) => {
 // 재등록 버튼
 const returnUser = async (userId) => {
     const url = `http://13.124.156.71:8080/admin/user/${userId}/return`;
+    // const url = `http://13.124.156.71:8080/admin/user/${userId}/return`;
 
     try {
         const response = await axiosInstance.post(url);
