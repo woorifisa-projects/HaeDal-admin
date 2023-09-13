@@ -1,10 +1,15 @@
 <template>
   <form @submit.prevent="submit">
-    <div>
+    <div class="login-box">
+      <div class="login-header">
+      
       <v-img class="mx-auto my-6" max-width="228" src="@/assets/img/HaeDalLogo.png"></v-img>
       <h2 style="text-align: center;margin-bottom: 30px;margin-top:-10px">관리자 로그인</h2>
-      <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="448" rounded="lg">
 
+      </div>
+
+      <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="448" rounded="lg">
+    
         <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
           Password
         </div>
@@ -14,11 +19,6 @@
           prepend-inner-icon="mdi-lock-outline" variant="outlined"
           @click:append-inner="visible = !visible"></v-text-field>
 
-        <v-card class="mb-12" color="surface-variant" variant="tonal">
-          <v-card-text class="text-medium-emphasis text-caption">
-            Warning: 안내문구다
-          </v-card-text>
-        </v-card>
 
         <v-btn :loading="loading" block class="mb-8" color="blue" size="large" variant="tonal" @click="onSubmit">
           Log In
@@ -80,4 +80,42 @@ const onSubmit = handleSubmit(async (values) => {
 
 
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.login-box{
+  height: 100vh;
+}
+
+.mx-auto pa-12 pb-8 {
+  justify-content: center;
+    margin: auto;
+    margin-top: 300px;
+    width: 70%;
+    min-width: 900px;
+
+}
+
+.v-card--variant-elevated, .v-card--variant-flat{
+  margin-top:10rem;
+}
+
+
+.v-img__img--contain {
+  justify-content: center;
+    margin: auto;
+    margin-bottom: 300px;
+    width: 70%;
+    min-width: 900px;
+}
+
+.login-header {
+  margin-top: 100px; 
+  text-align: center;
+}
+
+
+.v-card--variant-elevated {
+  margin-top: 1rem;
+}
+
+</style>
+
