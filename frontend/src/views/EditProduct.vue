@@ -4,41 +4,42 @@
       상품정보 수정
     </h2>
     <v-text-field class="productName" v-model="productName.value.value" :counter="20"
-      :error-messages="productName.errorMessage.value" label="productName">
+      :error-messages="productName.errorMessage.value" label="productName" variant="outlined">
       <template v-slot:prepend>
         <div>상품명</div>
       </template>
     </v-text-field>
 
     <v-text-field class="maxProductMoney" v-model="maxProductMoney.value.value" :counter="9"
-      :error-messages="maxProductMoney.errorMessage.value" label="maxProductMoney">
+      :error-messages="maxProductMoney.errorMessage.value" label="maxProductMoney" variant="outlined">
       <template v-slot:prepend>
         <div>상품 최대금액</div>
       </template>
     </v-text-field>
 
     <v-select v-model="userAgeGroup.value.value" :items="ageitems" :error-messages="userAgeGroup.errorMessage.value"
-      label="userAgeGroup">
+      label="userAgeGroup" variant="outlined">
       <template v-slot:prepend>
         <div>연령대</div>
       </template>
     </v-select>
 
     <v-select v-model="servicePurpose.value.value" :items="purposeitems"
-      :error-messages="servicePurpose.errorMessage.value" label="servicePurpose">
+      :error-messages="servicePurpose.errorMessage.value" label="servicePurpose" variant="outlined">
       <template v-slot:prepend>
         <div>이용목적</div>
       </template>
     </v-select>
 
-    <v-select v-model="tag.value.value" :items="tagitems" :error-messages="tag.errorMessage.value" label="tag">
+    <v-select v-model="tag.value.value" :items="tagitems" :error-messages="tag.errorMessage.value" label="tag"
+      variant="outlined">
       <template v-slot:prepend>
         <div>태그</div>
       </template>
     </v-select>
 
     <v-select v-model="deposit.value.value" :items="depositItems" :error-messages="deposit.errorMessage.value"
-      label="isDeposit">
+      label="isDeposit" variant="outlined">
       <template v-slot:prepend>
         <div>상품 종류</div>
       </template>
@@ -47,34 +48,35 @@
 
 
     <v-text-field v-model="shortInfo.value.value" :counter="50" :error-messages="shortInfo.errorMessage.value"
-      label="shortInfo">
+      label="shortInfo" variant="outlined">
       <template v-slot:prepend>
         <div>간략한 상품 설명</div>
       </template>
     </v-text-field>
 
     <v-text-field v-model="longInfo.value.value" :counter="100" :error-messages="longInfo.errorMessage.value"
-      label="longInfo">
+      label="longInfo" variant="outlined">
       <template v-slot:prepend>
         <div>상품 전체정보</div>
       </template>
     </v-text-field>
 
-    <v-text-field v-model="period.value.value" :counter="3" :error-messages="period.errorMessage.value" label="period">
+    <v-text-field v-model="period.value.value" :counter="3" :error-messages="period.errorMessage.value" label="period"
+      variant="outlined">
       <template v-slot:prepend>
         <div>가입기간</div>
       </template>
     </v-text-field>
 
     <v-text-field v-model="requiredStartMoney.value.value" :counter="9"
-      :error-messages="requiredStartMoney.errorMessage.value" label="requiredStartMoney">
+      :error-messages="requiredStartMoney.errorMessage.value" label="requiredStartMoney" variant="outlined">
       <template v-slot:prepend>
         <div>상품 시작금액</div>
       </template>
     </v-text-field>
 
     <v-text-field v-model="interestRate.value.value" :counter="4" :error-messages="interestRate.errorMessage.value"
-      label="interestRate">
+      label="interestRate" variant="outlined">
       <template v-slot:prepend>
         <div>금리</div>
       </template>

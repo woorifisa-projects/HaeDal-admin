@@ -3,14 +3,15 @@
     <h2 class="title" style="margin-bottom:30px">
       유저 정보
     </h2>
-    <v-text-field class="id" v-model="id.value.value" :counter="20" :error-messages="id.errorMessage.value" label="id">
+    <v-text-field class="id" v-model="id.value.value" :counter="20" :error-messages="id.errorMessage.value" label="id"
+      variant="outlined">
       <template v-slot:prepend>
         <div>로그인 id</div>
       </template>
     </v-text-field>
 
     <v-text-field class="password" v-model="password.value.value" :counter="20"
-      :error-messages="password.errorMessage.value" label="password">
+      :error-messages="password.errorMessage.value" label="password" variant="outlined">
       <template v-slot:prepend>
         <div>로그인 비밀번호</div>
       </template>
@@ -18,7 +19,7 @@
 
 
     <v-text-field class="name" v-model="name.value.value" :counter="20" :error-messages="name.errorMessage.value"
-      label="name">
+      label="name" variant="outlined">
       <template v-slot:prepend>
         <div>고객이름</div>
       </template>
@@ -26,7 +27,7 @@
 
 
     <v-text-field v-model="phoneNumber.value.value" :counter="12" :error-messages="phoneNumber.errorMessage.value"
-      label="phoneNumber">
+      label="phoneNumber" variant="outlined">
       <template v-slot:prepend>
         <div>고객 전화번호</div>
       </template>
@@ -34,7 +35,7 @@
 
 
     <v-select v-model="userAgeGroup.value.value" :items="ageitems" :error-messages="userAgeGroup.errorMessage.value"
-      label="userAgeGroup">
+      label="userAgeGroup" variant="outlined">
       <template v-slot:prepend>
         <div>연령대</div>
       </template>
@@ -42,7 +43,7 @@
 
 
     <v-select v-model="servicePurpose.value.value" :items="purposeitems"
-      :error-messages="servicePurpose.errorMessage.value" label="servicePurpose">
+      :error-messages="servicePurpose.errorMessage.value" label="servicePurpose" variant="outlined">
       <template v-slot:prepend>
         <div>이용목적</div>
       </template>
@@ -52,20 +53,21 @@
 
 
     <v-text-field v-model="accountNumber.value.value" :counter="100" :error-messages="accountNumber.errorMessage.value"
-      label="accountNumber">
+      label="accountNumber" variant="outlined">
       <template v-slot:prepend>
         <div>계좌번호</div>
       </template>
     </v-text-field>
 
     <v-text-field v-model="authNumber.value.value" :counter="20" :error-messages="authNumber.errorMessage.value"
-      label="authNumber">
+      label="authNumber" variant="outlined">
       <template v-slot:prepend>
         <div>인증번호</div>
       </template>
     </v-text-field>
 
-    <v-text-field v-model="asset.value.value" :counter="10" :error-messages="asset.errorMessage.value" label="asset">
+    <v-text-field v-model="asset.value.value" :counter="10" :error-messages="asset.errorMessage.value" label="asset"
+      variant="outlined">
       <template v-slot:prepend>
         <div>고객 자산</div>
       </template>
