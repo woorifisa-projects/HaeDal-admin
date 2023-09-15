@@ -52,8 +52,8 @@
       </template>
     </v-select>
 
-    <v-select v-model="isDeposit.value.value" :items="isDepositItems" :error-messages="isDeposit.errorMessage.value"
-      label="isDeposit" variant="outlined">
+    <v-select v-model="deposit.value.value" :items="depositItems" :error-messages="deposit.errorMessage.value"
+      label="deposit" variant="outlined">
       <template v-slot:prepend>
       </template>
     </v-select>
@@ -91,84 +91,6 @@
       </span>
     </div>
 
-
-    <!-- <v-text-field class="productName" v-model="productName.value.value" :counter="20"
-      :error-messages="productName.errorMessage.value" label="productName" variant="outlined">
-      <template v-slot:prepend>
-        <div>상품명</div>
-      </template>
-    </v-text-field>
-
-    <v-text-field class="maxProductMoney" v-model="maxProductMoney.value.value" :counter="9"
-      :error-messages="maxProductMoney.errorMessage.value" label="maxProductMoney" variant="outlined">
-      <template v-slot:prepend>
-        <div>상품 최대금액</div>
-      </template>
-    </v-text-field>
-
-    <v-select v-model="userAgeGroup.value.value" :items="ageitems" :error-messages="userAgeGroup.errorMessage.value"
-      label="userAgeGroup" variant="outlined">
-      <template v-slot:prepend>
-        <div>연령대</div>
-      </template>
-    </v-select>
-
-    <v-select v-model="servicePurpose.value.value" :items="purposeitems"
-      :error-messages="servicePurpose.errorMessage.value" label="servicePurpose" variant="outlined">
-      <template v-slot:prepend>
-        <div>이용목적</div>
-      </template>
-    </v-select>
-
-    <v-select v-model="tag.value.value" :items="tagitems" :error-messages="tag.errorMessage.value" label="tag"
-      variant="outlined">
-      <template v-slot:prepend>
-        <div>태그</div>
-      </template>
-    </v-select>
-
-    <v-select v-model="isDeposit.value.value" :items="isDepositItems" :error-messages="isDeposit.errorMessage.value"
-      label="isDeposit" variant="outlined">
-      <template v-slot:prepend>
-        <div>상품 종류</div>
-      </template>
-    </v-select>
-
-
-    <v-text-field v-model="shortInfo.value.value" :counter="50" :error-messages="shortInfo.errorMessage.value"
-      label="shortInfo" variant="outlined">
-      <template v-slot:prepend>
-        <div>간략한 상품 설명</div>
-      </template>
-    </v-text-field>
-
-    <v-text-field v-model="longInfo.value.value" :counter="100" :error-messages="longInfo.errorMessage.value"
-      label="longInfo" variant="outlined">
-      <template v-slot:prepend>
-        <div>상품 전체정보</div>
-      </template>
-    </v-text-field>
-
-    <v-text-field v-model="period.value.value" :counter="3" :error-messages="period.errorMessage.value" label="period"
-      variant="outlined">
-      <template v-slot:prepend>
-        <div>가입기간</div>
-      </template>
-    </v-text-field>
-
-    <v-text-field v-model="requiredStartMoney.value.value" :counter="9"
-      :error-messages="requiredStartMoney.errorMessage.value" label="requiredStartMoney" variant="outlined">
-      <template v-slot:prepend>
-        <div>상품 시작금액</div>
-      </template>
-    </v-text-field>
-
-    <v-text-field v-model="interestRate.value.value" :counter="4" :error-messages="interestRate.errorMessage.value"
-      label="interestRate" variant="outlined">
-      <template v-slot:prepend>
-        <div>금리</div>
-      </template>
-    </v-text-field> -->
 
     <v-btn class="me-4" type="submit">
       추가
@@ -247,9 +169,9 @@ const { handleSubmit, handleReset } = useForm({
       if (value) return true
       return 'tag an item.'
     },
-    isDeposit(value) {
+    deposit(value) {
       if (value) return true
-      return 'isDesposit an item'
+      return 'desposit an item'
     },
     shortInfo(value) {
       if (value?.length >= 10) return true
@@ -286,7 +208,7 @@ const longInfo = useField('longInfo') // 상품 전체 설명
 const period = useField('period') // 저축 기간
 const requiredStartMoney = useField('requiredStartMoney') // 시작 금액
 const interestRate = useField('interestRate') // 금리
-const isDeposit = useField('isDeposit') // 예금, 적금 타입 확인용 컬럼(0=예금, 1=적금)
+const deposit = useField('deposit') // 예금, 적금 타입 확인용 컬럼(0=예금, 1=적금)
 
 
 
@@ -312,7 +234,7 @@ const tagitems = ref([
 
 
 // boolean 값 
-const isDepositItems = ref([
+const depositItems = ref([
   '적금',
   '예금',
 ])
@@ -339,15 +261,17 @@ const tagEnumMapping = {
   '테마': 'THEMA',
 }
 
-const isDepositBooleanMapping = {
-  '적금': '0',
-  '예금': '1',
+const depositBooleanMapping = {
+  '적금': 0,
+  '예금': 1,
 }
 
 const mapToAgeEnum = (value) => ageEnumMapping[value];
 const mapToPurposeEnum = (value) => purposeEnumMapping[value];
 const mapToTag = (value) => tagEnumMapping[value];
-const mapToIsDeposit = (value) => isDepositBooleanMapping[value];
+const mapToDeposit = (value) => depositBooleanMapping[value];
+
+
 
 
 const submit = handleSubmit(values => {
@@ -355,10 +279,10 @@ const submit = handleSubmit(values => {
   const ageEnum = mapToAgeEnum(values.userAgeGroup);
   const purposeEnum = mapToPurposeEnum(values.servicePurpose);
   const tagEnum = mapToTag(values.tag);
-  const isDepositBoolean = mapToIsDeposit(values.isDeposit);
+  const depositBoolean = mapToDeposit(values.deposit);
 
 
-  const dataToSend = { ...values, userAgeGroup: ageEnum, servicePurpose: purposeEnum, tag: tagEnum, isDeposit: isDepositBoolean };
+  const dataToSend = { ...values, userAgeGroup: ageEnum, servicePurpose: purposeEnum, tag: tagEnum, deposit: depositBoolean };
 
   
 
@@ -439,7 +363,6 @@ form .v-btn {
   font-size: 16px;
   line-height: 77px;
   margin-top: -2.5px;
-
 
 }
 

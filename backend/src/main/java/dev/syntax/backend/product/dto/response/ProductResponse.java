@@ -32,7 +32,7 @@ public class ProductResponse {
     private final double interestRate; // 금리
     private List<Subscribe> subscribers; // 한 개의 상품에 몇 명의 고객들이 가입했는지 list
 
-//    @JsonProperty(value="isDeposit") // json 전달시에 명시해주는 필드명 -> 이름이 'deposit'으로 지정되는 현상 방지
+
     private boolean isDeposit; // 예금, 적금 타입 확인용 컬럼(0=예금, 1=적금)
     private boolean productStatus;
 
