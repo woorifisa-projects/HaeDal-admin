@@ -27,7 +27,6 @@ const axiosInstance = axios.create({
 watchEffect(() => {
     axiosInstance.get('/log').then((res) => {
         listData.value = res.data;
-        console.log(listData.value)
     })
 })
 

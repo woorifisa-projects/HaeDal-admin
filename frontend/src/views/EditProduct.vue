@@ -246,7 +246,7 @@ const ageEnumMapping = {
 }
 
 
-console.log('여기서는 ageEnumMapping이 어떤 값들을 가질까? :' + ageEnumMapping)
+
 
 
 const purposeEnumMapping = {
@@ -315,13 +315,9 @@ const mapDepositBooleanToValue = (value) => {
 
 
 
-console.log('여기서는 mapToAgeEnum이 어떤 값들을 가질까? :' + mapToAgeEnum('10대'))
-
-
-// console.log('maptoAgeEnum 타입은? :' + typeof(JSON.stringify(mapToAgeEnum)));
 
 const submit = handleSubmit(values => {
-  console.log("함수 동작하고있니");
+
 
 
   const ageEnum = mapToAgeEnum(mapAgeEnumToValue(values.userAgeGroup));
@@ -331,23 +327,9 @@ const submit = handleSubmit(values => {
   const productId = props.productId;
 
 
-  console.log('관리자가 수정한 연령대 값 ' + mapAgeEnumToValue(values.userAgeGroup))
-  console.log('관리자가 수정한 값의 ageEnum 값 ' + mapToAgeEnum(mapAgeEnumToValue(values.userAgeGroup)))
-
-  console.log('const ageEnum = mapToAgeEnum(values.userAgeGroup) 값은? : ' + JSON.stringify(ageEnum));
-  console.log('const ageEnum = mapToAgeEnum(values.userAgeGroup) 타입은? : ' + typeof (ageEnum));
 
   const dataToSend = { ...values, deposit: depositBoolean.toString(), userAgeGroup: ageEnum, servicePurpose: purposeEnum, tag: tagEnum };
 
-  console.log('악 모르겠어' + JSON.stringify(dataToSend));
-
-  console.log('ageEnum 타입은? ' + typeof (ageEnum));
-  console.log('purposeEnum 타입은? ' + typeof (purposeEnum));
-  console.log('tagEnum 타입은? ' + typeof (tagEnum));
-  console.log('depositBoolean 타입은? ' + typeof (depositBoolean));
-  console.log('depositBoolean 값은? ' + depositBoolean);
-
-  console.log(dataToSend);
 
   axios.post(`http://13.124.156.71:8080/admin/product/${productId}/edit/save`, dataToSend, {
     headers: {
@@ -357,14 +339,14 @@ const submit = handleSubmit(values => {
   })
     .then(response => {
       // POST 요청 성공 시 로직
-      console.log(response.data);
+
       productName.value = values.productName;
       dialog.openDialog();
-      console.log("모달창띄웟다");
+
       // 수정이 완료되었을 때 'save' 경로로 이동
       // location.reload(); // 현재 페이지 리로드
       router.push({ name: 'save_edited_product', params: { productId } });
-      console.log("페이지 이동 성공!")
+
     })
     // POST 요청 실패 시 로직
     .catch(error => {
@@ -378,7 +360,7 @@ onMounted(() => {
 
   axios.get(`http://13.124.156.71:8080/admin/product/${productId}/edit`)
     .then(response => {
-      console.log(response.data);
+
       productName.value.value = response.data.name
       maxProductMoney.value.value = response.data.maxProductMoney
       servicePurpose.value.value = mapPurposeEnumToValue(response.data.servicePurpose)
@@ -391,7 +373,7 @@ onMounted(() => {
       requiredStartMoney.value.value = response.data.requiredStartMoney
       interestRate.value.value = response.data.interestRate
       deposit.value.value = mapDepositBooleanToValue(response.data.deposit)
-      console.log("잘 나타나고 있니")
+
     })
     .catch(error => {
       console.error(error);

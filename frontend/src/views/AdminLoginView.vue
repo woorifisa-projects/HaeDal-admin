@@ -3,7 +3,7 @@
     <div class="login-box">
       <div class="login-header">
       
-      <v-img class="mx-auto my-6" max-width="228" src="@/assets/img/HaeDalLogo.png"></v-img>
+      <v-img alt="main-HaeDal-logo" class="mx-auto my-6" max-width="228" src="@/assets/img/HaeDalLogo.png"></v-img>
       <h2 style="text-align: center;margin-bottom: 30px;margin-top:-10px">관리자 로그인</h2>
 
       </div>
@@ -52,7 +52,7 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     const url = "http://13.124.156.71:8080/admin/login";
 
-    console.log('password의 타입은? ' + typeof (values.password));
+    
 
     const response = await axios.post(url, null, {
       params: {
@@ -65,7 +65,7 @@ const onSubmit = handleSubmit(async (values) => {
 
     if (response.status === 200 && response.data === "관리자 확인 되었습니다.") {
       // 로그인 성공 시 로직
-      console.log("로그인 성공");
+      
       router.push({ name: 'product_management' });
     } else {
       // 로그인 실패 시 로직

@@ -1,7 +1,98 @@
 <template>
   <form @submit.prevent="submit">
     <h2 style="margin-bottom:30px">상품 추가 페이지</h2>
-    <v-text-field class="productName" v-model="productName.value.value" :counter="20"
+
+    <div class="all-box">
+
+      <span class="key-container">
+        상품명<br>
+        상품 최대금액<br>
+        연령대<br>
+        이용목적<br>
+        태그<br>
+        상품 종류<br>
+        간략한 상품 설명<br>
+        상품 전체정보<br>
+        가입기간<br>
+        상품 시작금액<br>
+        금리<br>
+      </span>
+
+      <span class="value-container">
+
+
+
+        <v-text-field class="productName" v-model="productName.value.value" :counter="20"
+      :error-messages="productName.errorMessage.value" label="productName" variant="outlined">
+      <template v-slot:prepend>
+      </template>
+    </v-text-field>
+
+    <v-text-field class="maxProductMoney" v-model="maxProductMoney.value.value" :counter="9"
+      :error-messages="maxProductMoney.errorMessage.value" label="maxProductMoney" variant="outlined">
+      <template v-slot:prepend>
+      </template>
+    </v-text-field>
+
+    <v-select v-model="userAgeGroup.value.value" :items="ageitems" :error-messages="userAgeGroup.errorMessage.value"
+      label="userAgeGroup" variant="outlined">
+      <template v-slot:prepend>
+      </template>
+    </v-select>
+
+    <v-select v-model="servicePurpose.value.value" :items="purposeitems"
+      :error-messages="servicePurpose.errorMessage.value" label="servicePurpose" variant="outlined">
+      <template v-slot:prepend>
+      </template>
+    </v-select>
+
+    <v-select v-model="tag.value.value" :items="tagitems" :error-messages="tag.errorMessage.value" label="tag"
+      variant="outlined">
+      <template v-slot:prepend>
+      </template>
+    </v-select>
+
+    <v-select v-model="isDeposit.value.value" :items="isDepositItems" :error-messages="isDeposit.errorMessage.value"
+      label="isDeposit" variant="outlined">
+      <template v-slot:prepend>
+      </template>
+    </v-select>
+
+    <v-text-field v-model="shortInfo.value.value" :counter="50" :error-messages="shortInfo.errorMessage.value"
+      label="shortInfo" variant="outlined">
+      <template v-slot:prepend>
+      </template>
+    </v-text-field>
+
+    <v-text-field v-model="longInfo.value.value" :counter="100" :error-messages="longInfo.errorMessage.value"
+      label="longInfo" variant="outlined">
+      <template v-slot:prepend>
+      </template>
+    </v-text-field>
+
+    <v-text-field v-model="period.value.value" :counter="3" :error-messages="period.errorMessage.value" label="period"
+      variant="outlined">
+      <template v-slot:prepend>
+      </template>
+    </v-text-field>
+
+    <v-text-field v-model="requiredStartMoney.value.value" :counter="9"
+      :error-messages="requiredStartMoney.errorMessage.value" label="requiredStartMoney" variant="outlined">
+      <template v-slot:prepend>
+      </template>
+    </v-text-field>
+
+    <v-text-field v-model="interestRate.value.value" :counter="4" :error-messages="interestRate.errorMessage.value"
+      label="interestRate" variant="outlined">
+      <template v-slot:prepend>
+      </template>
+    </v-text-field>
+
+      </span>
+    </div>
+
+
+    <!-- <v-text-field class="productName" v-model="productName.value.value" :counter="20"
       :error-messages="productName.errorMessage.value" label="productName" variant="outlined">
       <template v-slot:prepend>
         <div>상품명</div>
@@ -77,7 +168,7 @@
       <template v-slot:prepend>
         <div>금리</div>
       </template>
-    </v-text-field>
+    </v-text-field> -->
 
     <v-btn class="me-4" type="submit">
       추가
@@ -260,7 +351,7 @@ const mapToIsDeposit = (value) => isDepositBooleanMapping[value];
 
 
 const submit = handleSubmit(values => {
-  console.log("함수 동작");
+  
   const ageEnum = mapToAgeEnum(values.userAgeGroup);
   const purposeEnum = mapToPurposeEnum(values.servicePurpose);
   const tagEnum = mapToTag(values.tag);
@@ -269,15 +360,15 @@ const submit = handleSubmit(values => {
 
   const dataToSend = { ...values, userAgeGroup: ageEnum, servicePurpose: purposeEnum, tag: tagEnum, isDeposit: isDepositBoolean };
 
-  console.log(dataToSend);
+  
 
   axios.post('http://13.124.156.71:8080/admin/product/add', dataToSend)
     .then(response => {
       // POST 요청 성공 시 로직
-      console.log(response.data);
+      
       productName.value = values.productName;
       dialog.openDialog();
-      console.log("모달창띄웟다");
+      
       // 수정이 완료되었을 때 'save' 경로로 이동
       router.push({ name: 'save_add_product' });
     })
@@ -329,4 +420,34 @@ form .v-btn {
   font-weight: bold;
   color: white;
 }
+
+.all-box {
+  display: flex;
+  margin-right: 0%;
+  
+
+  /* Flexbox를 사용하여 가로 배치
+   설정 */
+  /* 두 열을 가로로 최대한 넓게 배치 */
+}
+
+.key-container {
+  flex: 0.9;
+  
+  text-align: left;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 77px;
+  margin-top: -2.5px;
+
+
+}
+
+
+.value-container {
+  flex: 3;
+  flex-wrap: nowrap;
+}
+
+
 </style>
