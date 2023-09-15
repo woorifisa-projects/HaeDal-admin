@@ -116,7 +116,7 @@ watchEffect(() => {
 
         // 필터링된 데이터를 listData에 할당
         listData.value = filteredData;
-        console.log(listData);
+
     })
 })
 
@@ -130,7 +130,7 @@ const inProgressService = () => {
         // 필터링된 데이터를 listData에 할당
         listData.value = filteredData;
 
-        console.log(listData);
+
     });
 }
 
@@ -146,7 +146,6 @@ const doneService = () => {
         // 필터링된 데이터를 listData에 할당
         listData.value = filteredData;
 
-        console.log(listData);
     });
 }
 
@@ -180,7 +179,7 @@ const returnDialog = {
 // 수정하기 버튼
 const editProduct = (productId) => {
     router.push({ name: 'edit_product', params: { productId: productId } });
-    console.log('수정됨');
+
 }
 
 
@@ -191,9 +190,9 @@ const deleteProduct = async (productId) => {
     try {
         const response = await axiosInstance.post(url);
         // POST 요청 성공 시 로직
-        console.log(response.data);
+
         deleteDialog.openDialog();
-        console.log("모달창띄웟다");
+
 
         // 상품 삭제 후 listData에서도 해당 상품 삭제
         const productIndex = listData.value.findIndex(product => product.productId === productId);
@@ -203,7 +202,7 @@ const deleteProduct = async (productId) => {
 
         // 삭제가 완료되었을 때 다시 상품관리 경로로 이동
         router.push({ name: 'product_management' });
-        console.log("페이지 이동 성공!")
+
     } catch (error) {
         console.error(error);
     };
@@ -218,10 +217,9 @@ const returnProduct = async (productId) => {
 
         if (response.status === 200) {
             // POST 요청 성공 시 로직
-            console.log(response.data);
+
             // productName.value = values.productName;
             returnDialog.openDialog();
-            console.log("모달창띄웟다");
 
             // 상품 재등록 후 listData에서 해당 상품 삭제
             const productIndex = listData.value.findIndex(product => product.productId === productId);
@@ -230,7 +228,7 @@ const returnProduct = async (productId) => {
             }
             // 재등록이 완료되었을 때 다시 상품관리 경로로 이동
             router.push({ name: 'product_management' });
-            console.log("페이지 이동 성공!")
+
         }
     } catch (error) {
         console.error(error);

@@ -60,12 +60,11 @@ public class ProductController {
 
         editProduct.setProductId(productId);
         editProduct.setProductStatus(true);
-        System.out.println("editProduct의 값은? " + editProduct);
-        System.out.println("editProduct의 isDeposit 값은? " +  editProduct.isDeposit());
+
+
 
         Product updatedProduct = productService.save(editProduct);
-        System.out.println("수정되었습니다.");
-        System.out.println(updatedProduct.getUserAgeGroup());
+
 
         return ProductResponse.from(updatedProduct);
     }

@@ -67,7 +67,6 @@ public class UserController {
                 return UserResponse.from(updatedUser);
             }
         }
-        System.out.println("삭제되었습니다");
         return UserResponse.from(user);
     }
     @PostMapping("/{userId}/return")
@@ -80,7 +79,6 @@ public class UserController {
                 return UserResponse.from(updatedUser);
             }
         }
-        System.out.println("삭제되었습니다");
         return UserResponse.from(user);
     }
 }

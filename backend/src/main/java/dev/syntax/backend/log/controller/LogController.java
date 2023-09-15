@@ -29,7 +29,7 @@ public class LogController {
     @GetMapping
     public List<LogResponse> allLogShow() {
         List<Log> logs = logService.findAll();
-        System.out.println(logs);
+
         List<LogResponse> logResponse = logs.stream()
                 .map(LogResponse::from)
                 .collect(Collectors.toList());

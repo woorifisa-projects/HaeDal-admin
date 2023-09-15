@@ -84,7 +84,7 @@
 import axios from 'axios'
 import { watchEffect, ref } from 'vue'
 import router from '../router'
-// import { mdiConsoleNetwork } from '@mdi/js';
+
 
 // 서버에서 받아오는 정보
 const listData = ref([]);
@@ -99,16 +99,6 @@ const axiosInstance = axios.create({
 
 
 
-// watchEffect(() => {
-//     axiosInstance.get('user').then((res) => {
-//         let tempArr = [...res.data]
-//         tempArr.forEach((user) => {
-//             console.log(user)
-//             listData.value.push(user)
-//         })
-//         console.log(listData);
-//     })
-// })
 
 watchEffect(() => {
     listData.value = [];
@@ -118,7 +108,7 @@ watchEffect(() => {
 
         // 필터링된 데이터를 listData에 할당
         listData.value = filteredData;
-        console.log(listData);
+
     })
 })
 
@@ -153,7 +143,7 @@ const returnDialog = {
 // 수정하기 버튼
 const editUser = (userId) => {
     router.push({ name: 'edit_user', params: { userId: userId } });
-    console.log('수정됨');
+
 }
 
 
@@ -168,9 +158,9 @@ const deleteUser = async (userId) => {
 
         if (response.status === 200) {
             // POST 요청 성공 시 로직
-            console.log(response.data);
+
             deleteDialog.openDialog();
-            console.log("모달창띄웟다");
+
 
             // 사용자 삭제 후 listData에서도 해당 사용자 삭제
             const userIndex = listData.value.findIndex(user => user.userId === userId);
@@ -180,7 +170,7 @@ const deleteUser = async (userId) => {
 
             // 수정이 완료되었을 때 다시 상품관리 경로로 이동
             router.push({ name: 'user_management' });
-            console.log("페이지 이동 성공!")
+
         }
 
 
@@ -201,9 +191,9 @@ const returnUser = async (userId) => {
 
         if (response.status === 200) {
             // POST 요청 성공 시 로직
-            console.log(response.data);
+
             returnDialog.openDialog();
-            console.log("모달창띄웟다");
+
 
             // 사용자 복구 후 listData에서도 해당 사용자 삭제
             const userIndex = listData.value.findIndex(user => user.userId === userId);
@@ -213,7 +203,7 @@ const returnUser = async (userId) => {
 
             // 수정이 완료되었을 때 다시 상품관리 경로로 이동
             router.push({ name: 'user_management' });
-            console.log("페이지 이동 성공!")
+
         }
     } catch (error) {
         console.error(error);
@@ -232,7 +222,7 @@ const inProgressService = () => {
         // 필터링된 데이터를 listData에 할당
         listData.value = filteredData;
 
-        console.log(listData);
+
     });
 }
 
@@ -248,7 +238,7 @@ const doneService = () => {
         // 필터링된 데이터를 listData에 할당
         listData.value = filteredData;
 
-        console.log(listData);
+
     });
 }
 

@@ -3,84 +3,96 @@
     <h2 class="title" style="margin-bottom:30px">
       상품정보 수정
     </h2>
-    <v-text-field class="productName" v-model="productName.value.value" :counter="20"
+    
+    <div class="all-container">
+
+      <span class="key-container">
+      상품명<br>
+      상품 최대금액<br>
+      연령대<br>
+      이용목적<br>
+      태그<br>
+      상품 종류<br>
+      간략한 상품 설명<br>
+      상품 전체정보<br>
+      가입기간<br>
+      상품 시작금액<br>
+      금리<br>
+    </span>
+
+    <span class="value-container">
+
+      <v-text-field class="productName" v-model="productName.value.value" :counter="20"
       :error-messages="productName.errorMessage.value" label="productName" variant="outlined">
       <template v-slot:prepend>
-        <div>상품명</div>
       </template>
     </v-text-field>
 
-    <v-text-field class="maxProductMoney" v-model="maxProductMoney.value.value" :counter="9"
+    <v-text-field class="maxProductMoney" v-model="maxProductMoney.value.value" :counter="10"
       :error-messages="maxProductMoney.errorMessage.value" label="maxProductMoney" variant="outlined">
       <template v-slot:prepend>
-        <div>상품 최대금액</div>
       </template>
     </v-text-field>
 
     <v-select v-model="userAgeGroup.value.value" :items="ageitems" :error-messages="userAgeGroup.errorMessage.value"
       label="userAgeGroup" variant="outlined">
       <template v-slot:prepend>
-        <div>연령대</div>
       </template>
     </v-select>
 
     <v-select v-model="servicePurpose.value.value" :items="purposeitems"
       :error-messages="servicePurpose.errorMessage.value" label="servicePurpose" variant="outlined">
       <template v-slot:prepend>
-        <div>이용목적</div>
       </template>
     </v-select>
 
     <v-select v-model="tag.value.value" :items="tagitems" :error-messages="tag.errorMessage.value" label="tag"
       variant="outlined">
       <template v-slot:prepend>
-        <div>태그</div>
       </template>
     </v-select>
 
     <v-select v-model="deposit.value.value" :items="depositItems" :error-messages="deposit.errorMessage.value"
-      label="isDeposit" variant="outlined">
+      label="deposit" variant="outlined">
       <template v-slot:prepend>
-        <div>상품 종류</div>
       </template>
     </v-select>
-
 
 
     <v-text-field v-model="shortInfo.value.value" :counter="50" :error-messages="shortInfo.errorMessage.value"
       label="shortInfo" variant="outlined">
       <template v-slot:prepend>
-        <div>간략한 상품 설명</div>
       </template>
     </v-text-field>
 
     <v-text-field v-model="longInfo.value.value" :counter="100" :error-messages="longInfo.errorMessage.value"
       label="longInfo" variant="outlined">
       <template v-slot:prepend>
-        <div>상품 전체정보</div>
       </template>
     </v-text-field>
 
     <v-text-field v-model="period.value.value" :counter="3" :error-messages="period.errorMessage.value" label="period"
       variant="outlined">
       <template v-slot:prepend>
-        <div>가입기간</div>
       </template>
     </v-text-field>
 
     <v-text-field v-model="requiredStartMoney.value.value" :counter="9"
       :error-messages="requiredStartMoney.errorMessage.value" label="requiredStartMoney" variant="outlined">
       <template v-slot:prepend>
-        <div>상품 시작금액</div>
       </template>
     </v-text-field>
 
     <v-text-field v-model="interestRate.value.value" :counter="4" :error-messages="interestRate.errorMessage.value"
       label="interestRate" variant="outlined">
       <template v-slot:prepend>
-        <div>금리</div>
       </template>
     </v-text-field>
+
+    </span>
+
+    </div>
+
 
     <v-btn class="me-4" type="submit">
       수정
@@ -147,7 +159,7 @@ const { handleSubmit } = useForm({
       return 'Name needs to be at least 2 characters.'
     },
     maxProductMoney(value) {
-      if (value?.length > 0) return true
+      if (value > 0) return true
       return 'maxProductMoney is bigger than 0.'
     },
     userAgeGroup(value) {
@@ -246,7 +258,7 @@ const ageEnumMapping = {
 }
 
 
-console.log('여기서는 ageEnumMapping이 어떤 값들을 가질까? :' + ageEnumMapping)
+
 
 
 const purposeEnumMapping = {
@@ -315,13 +327,9 @@ const mapDepositBooleanToValue = (value) => {
 
 
 
-console.log('여기서는 mapToAgeEnum이 어떤 값들을 가질까? :' + mapToAgeEnum('10대'))
-
-
-// console.log('maptoAgeEnum 타입은? :' + typeof(JSON.stringify(mapToAgeEnum)));
 
 const submit = handleSubmit(values => {
-  console.log("함수 동작하고있니");
+
 
 
   const ageEnum = mapToAgeEnum(mapAgeEnumToValue(values.userAgeGroup));
@@ -331,23 +339,9 @@ const submit = handleSubmit(values => {
   const productId = props.productId;
 
 
-  console.log('관리자가 수정한 연령대 값 ' + mapAgeEnumToValue(values.userAgeGroup))
-  console.log('관리자가 수정한 값의 ageEnum 값 ' + mapToAgeEnum(mapAgeEnumToValue(values.userAgeGroup)))
-
-  console.log('const ageEnum = mapToAgeEnum(values.userAgeGroup) 값은? : ' + JSON.stringify(ageEnum));
-  console.log('const ageEnum = mapToAgeEnum(values.userAgeGroup) 타입은? : ' + typeof (ageEnum));
 
   const dataToSend = { ...values, deposit: depositBoolean.toString(), userAgeGroup: ageEnum, servicePurpose: purposeEnum, tag: tagEnum };
 
-  console.log('악 모르겠어' + JSON.stringify(dataToSend));
-
-  console.log('ageEnum 타입은? ' + typeof (ageEnum));
-  console.log('purposeEnum 타입은? ' + typeof (purposeEnum));
-  console.log('tagEnum 타입은? ' + typeof (tagEnum));
-  console.log('depositBoolean 타입은? ' + typeof (depositBoolean));
-  console.log('depositBoolean 값은? ' + depositBoolean);
-
-  console.log(dataToSend);
 
   axios.post(`http://13.124.156.71:8080/admin/product/${productId}/edit/save`, dataToSend, {
     headers: {
@@ -357,14 +351,14 @@ const submit = handleSubmit(values => {
   })
     .then(response => {
       // POST 요청 성공 시 로직
-      console.log(response.data);
+
       productName.value = values.productName;
       dialog.openDialog();
-      console.log("모달창띄웟다");
+
       // 수정이 완료되었을 때 'save' 경로로 이동
       // location.reload(); // 현재 페이지 리로드
       router.push({ name: 'save_edited_product', params: { productId } });
-      console.log("페이지 이동 성공!")
+
     })
     // POST 요청 실패 시 로직
     .catch(error => {
@@ -378,7 +372,7 @@ onMounted(() => {
 
   axios.get(`http://13.124.156.71:8080/admin/product/${productId}/edit`)
     .then(response => {
-      console.log(response.data);
+
       productName.value.value = response.data.name
       maxProductMoney.value.value = response.data.maxProductMoney
       servicePurpose.value.value = mapPurposeEnumToValue(response.data.servicePurpose)
@@ -391,7 +385,7 @@ onMounted(() => {
       requiredStartMoney.value.value = response.data.requiredStartMoney
       interestRate.value.value = response.data.interestRate
       deposit.value.value = mapDepositBooleanToValue(response.data.deposit)
-      console.log("잘 나타나고 있니")
+
     })
     .catch(error => {
       console.error(error);
@@ -431,4 +425,27 @@ form .v-btn {
   font-weight: bold;
   color: white;
 }
+
+
+.all-container {
+  display: flex;
+  margin-right: 0%;
+}
+
+.key-container {
+  flex: 0.9;
+  
+  text-align: left;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 77px;
+  margin-top: -2px;
+
+}
+
+.value-container {
+  flex: 3;
+  flex-wrap: nowrap;
+}
+
 </style>

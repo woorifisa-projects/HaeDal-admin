@@ -2,7 +2,7 @@
   <form @submit.prevent="submit">
     <v-app-bar class="bar" flat :color="scrolling ? 'rgba(255,255,255,0.4)' : 'rgba(119, 198, 255, 0.152)'">
       <v-container class="mx-auto d-flex align-center justify-center ">
-        <img src='@/assets/img/HaeDalLogo.png' class="logo" >
+        <img alt="main-HaeDal-logo" src='@/assets/img/HaeDalLogo.png' class="logo" >
 
         <v-btn v-for="link in links" :key="link" :text="link" variant="text" :to="goLinkPath(link)"
           class="nav-link"></v-btn>

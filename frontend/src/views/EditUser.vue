@@ -219,7 +219,6 @@ const ageEnumMapping = {
 }
 
 
-console.log('여기서는 ageEnumMapping이 어떤 값들을 가질까? :' + ageEnumMapping)
 
 
 const purposeEnumMapping = {
@@ -257,13 +256,9 @@ const mapPurposeEnumToValue = (value) => {
 
 
 
-console.log('여기서는 mapToAgeEnum이 어떤 값들을 가질까? :' + mapToAgeEnum('10대'))
-
-
-// console.log('maptoAgeEnum 타입은? :' + typeof(JSON.stringify(mapToAgeEnum)));
 
 const submit = handleSubmit(values => {
-  console.log("함수 동작하고있니");
+
 
 
   const ageEnum = mapToAgeEnum(mapAgeEnumToValue(values.userAgeGroup));
@@ -272,18 +267,10 @@ const submit = handleSubmit(values => {
   const userId = props.userId;
 
 
-  console.log('관리자가 수정한 연령대 값 ' + mapAgeEnumToValue(values.userAgeGroup))
-  console.log('관리자가 수정한 값의 ageEnum 값 ' + mapToAgeEnum(mapAgeEnumToValue(values.userAgeGroup)))
-
-  console.log('const ageEnum = mapToAgeEnum(values.userAgeGroup) 값은? : ' + JSON.stringify(ageEnum));
-  console.log('const ageEnum = mapToAgeEnum(values.userAgeGroup) 타입은? : ' + typeof (ageEnum));
 
   const dataToSend = { ...values, userAgeGroup: ageEnum, servicePurpose: purposeEnum };
 
-  console.log('악 모르겠어' + JSON.stringify(dataToSend));
 
-  console.log('ageEnum 타입은? ' + typeof (ageEnum));
-  console.log('purposeEnum 타입은? ' + typeof (purposeEnum));
 
 
 
@@ -295,14 +282,14 @@ const submit = handleSubmit(values => {
   })
     .then(response => {
       // POST 요청 성공 시 로직
-      console.log(response.data);
+
       id.value = values.id;
       dialog.openDialog();
-      console.log("모달창띄웟다");
+
       // 수정이 완료되었을 때 'save' 경로로 이동
       // location.reload(); // 현재 페이지 리로드
       router.push({ name: 'save_edit_user', params: { userId } });
-      console.log("페이지 이동 성공!")
+
     })
     // POST 요청 실패 시 로직
     .catch(error => {
@@ -318,7 +305,7 @@ onMounted(() => {
 
   axios.get(`http://13.124.156.71:8080/admin/user/${userId}/edit`)
     .then(response => {
-      console.log(response.data);
+
       id.value.value = response.data.id
       password.value.value = response.data.password
       name.value.value = response.data.name
@@ -329,7 +316,6 @@ onMounted(() => {
       authNumber.value.value = response.data.authNumber
       asset.value.value = response.data.asset
 
-      console.log("잘 나타나고 있니")
     })
     .catch(error => {
       console.error(error);
